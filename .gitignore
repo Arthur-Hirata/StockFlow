@@ -1,0 +1,34 @@
+# Backend
+Back-end/.venv/
+Backend/__pycache__/
+Back-end/*.pyc
+Back-end/.env
+
+# Frontend
+Front-end/node_modules/
+Front-end/dist/
+
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# IDEs
+.idea/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Sistema
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
