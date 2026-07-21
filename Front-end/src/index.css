@@ -1,0 +1,39 @@
+:root{
+    --background : #F8F5F0;
+    --cards : #FFFFFF;
+    --main-blue : #2563EB;
+    --hover : #1D4ED8;
+    --text : #0F172A;
+    --secundary-text : #64748B;
+    --border: #E2E8F0;
+    --green: #22C55E;
+    --red : #EF4444;
+    --alert: #F59E0B;
+    --shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: var(--background);
+  font-family: Poppins, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+#root {
+  width: 100%;
+}
+html {
+  scroll-behavior: smooth;
+}
+button{
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+button:hover{
+  transform: scale(1.03);
+}
