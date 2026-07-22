@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./login.module.css"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     const[mostrarSenha, setMostrarSenha]= useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')    
@@ -43,15 +45,12 @@ function Login() {
         const data = await response.json()
         if (response.ok){
           localStorage.setItem("token", data.token_JWT)
-          alert("foi")
-        }else if (data.mensagem === "Senha Incorreta") {
-          alert("senha errada")
+          navigate("/Home")
+        }else if (data.mensagem === "Usuário não encontrado"){
+          setEmailError('Usuário não encontrado')
+        }else if (data.mensagem === "Senha Incorreta"){
+          setPassowrdError('Senha incorreta')
         }
-
-
-        
-
-
 }
   
   return (
