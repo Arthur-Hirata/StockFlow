@@ -56,7 +56,7 @@ def loginUser():
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
 
-        cursor.execute("SELECT id, senha, nome, role FROM users WHERE email= ?", (email,))
+        cursor.execute("SELECT id, password, nome, role FROM users WHERE email= ?", (email,))
         result = cursor.fetchone()
         conexao.close()
         
@@ -65,7 +65,7 @@ def loginUser():
         
         id_user, user_password, user_name, user_role = result
 
-        if check_password_hash(senha, user_password):
+        if check_password_hash(user_password, senha):
             payload ={
                 'sub' : str(id_user),
                 'nome' : user_name,

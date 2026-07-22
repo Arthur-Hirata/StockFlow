@@ -57,7 +57,16 @@ input[type='password']:focus {
     border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
-
+.input{
+    width: 100%;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 0 14px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 .btnEntrar {
     width: 100%;
     height: 46px;
@@ -83,4 +92,27 @@ input[type='password']:focus {
     background-color: transparent;
     border: none;
     margin-left: -30px;
+}
+.erroUser{
+    color: var(--red);
+    font-size: 10px;
+    font-weight: bold;
+    display: none;
+}
+.erroSenha{
+    color: var(--red);
+    font-size: 10px;
+    font-weight: bold;
+    display: none;
+}
+input[type='text'].error,
+input[type='password'].error {
+  border: 1px solid var(--red);
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+.spanErro{
+    color: var(--red);
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 5px;
 }
