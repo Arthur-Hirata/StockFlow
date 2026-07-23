@@ -1,9 +1,8 @@
 import styles from "./Dashboard.module.css"
-import SectionTittle from "../../../../Section-Tittle/Section-tittle"
+
 function Dashboard(){
     return(
         <section>
-            <SectionTittle text={"Dashboard"}/>
             <div className={styles.containerDashboard}>
                 <div className={styles.rowCard}>
                     <div className={styles.CardDashboard}>

@@ -1,7 +1,24 @@
 .sectionProducts{
-    background-color:var(--background);
+    background-color: var(--background);
     width: 83vw;
-    height: 100vw;
+    min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    padding: 24px 0 40px;
+}
+.gridProducts{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 30px;
+    row-gap: 24px;
+    width: 100%;
+    max-width: 1020px;
+}
+.Produto{
+    width: 300px;
+    height: 300px;
+    border-radius: 12px;
+    background: var(--cards-bg);
 }

@@ -24,11 +24,11 @@ body{
   font-family: Poppins, sans-serif;
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
+  margin: 0;
 }
 #root {
   width: 100%;
+  min-height: 100vh;
 }
 html {
   scroll-behavior: smooth;

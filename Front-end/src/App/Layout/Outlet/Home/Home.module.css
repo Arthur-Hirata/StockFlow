@@ -1,8 +1,9 @@
 .sectionHome{
-    background-color:var(--background);
+    background-color: var(--background);
     width: 83vw;
-    height: 100vw;
+    min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
-
+    align-items: flex-start;
+    padding: 24px 0 40px;
 }
