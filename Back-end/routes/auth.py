@@ -9,6 +9,7 @@ import datetime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from pathlib import Path
+from datetime import datetime, timedelta, timezone
 app= Flask(__name__)
 CORS(app, 
      origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -41,6 +42,21 @@ def validar_token(auth_header, mensagem_ausente="Token ausente!", mensagem_expir
         return None, (jsonify({"mensagem": mensagem_invalido}), 401)
 
 
+@app.route('/verifyToken', methods=['GET'])
+def validarToken():
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        return jsonify ({"mensagem" : "token not sent"})
+    try:
+        token = auth_header.split(" ", 1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return jsonify({
+            "mensagem" : "validy token"
+        }), 200
+    except jwt.ExpiredSignatureError:
+        return (jsonify({"mensagem": "expired token"}), 401)
+    except jwt.InvalidTokenError:
+        return  (jsonify({"mensagem": "invalid token"}), 401)
 
 @app.route('/loginUser', methods=['POST'])
 def loginUser():
@@ -70,7 +86,7 @@ def loginUser():
                 'sub' : str(id_user),
                 'nome' : user_name,
                 'role' : user_role,
-                'exp' : 48
+                'exp' : datetime.now(timezone.utc) + timedelta(hours=48)
             }
             token_JWT = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 

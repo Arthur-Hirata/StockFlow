@@ -2,7 +2,7 @@ aside{
     width: 17vw;
     height: 100vw;
     padding: 24px 10px;
-    background-color: #1E3A5F;
+    background-color: var(--aside);
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@ aside{
     color: white;
     margin-top: 16px;
 }
-.routes{
+.containerRoutes{
     margin-top: 70px;
     height: 300px;
     width: 200px;
@@ -43,8 +43,17 @@ aside{
     justify-content: center;
 }
 .route{
-    transform: .25s;
+    width: 160px;
+    height: 30px;
+    background-color: var(--aside);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition: transform 0.3s ease-in-out;
 }
 .route:hover{
-    transform: scale(1.03);
+    transform: scale(1.07);
 }

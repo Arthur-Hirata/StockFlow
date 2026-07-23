@@ -45,7 +45,7 @@ function Login() {
         const data = await response.json()
         if (response.ok){
           localStorage.setItem("token", data.token_JWT)
-          navigate("/Home")
+          navigate("/")
         }else if (data.mensagem === "Usuário não encontrado"){
           setEmailError('Usuário não encontrado')
         }else if (data.mensagem === "Senha Incorreta"){
