@@ -1,0 +1,35 @@
+.containerTittle{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 220px;
+    width: fit-content;
+    padding: 14px 24px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--cards) 0%, #f8fbff 100%);
+    margin-top: 10px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.containerTittle::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+}
+
+.tittle{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    margin: 0;
+}

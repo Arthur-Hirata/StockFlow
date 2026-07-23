@@ -11,6 +11,8 @@
     --alert: #F59E0B;
     --shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
     --aside : #1E3A5F;
+    --cards-bg : linear-gradient(135deg, var(--cards) 0%, #f8fbff 100%);
+  
 }
 *{
   margin: 0;

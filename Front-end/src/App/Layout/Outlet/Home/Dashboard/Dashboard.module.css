@@ -1,0 +1,117 @@
+.containerDashboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin-top: 30px;
+    gap: 40px;
+}
+.rowCard{
+    display: flex;
+    gap: 30px;
+}
+.CardDashboard{
+    width: 350px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background:var(--cards-bg);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.CardDashboard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+}
+.cardTittlecontainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.cardTittle{
+    font-size: 25px;
+    display: flex;
+}
+.cardValue{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 65px;
+    font-weight: 500;
+    color: var(--green);
+}
+.icon{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #DBEAFE;
+    color: #2563EB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .25s;
+    color: white;
+}
+.icon:hover{
+    background:var(--aside);
+    color:white;
+    transform:translateY(-3px);
+}
+.dataRow{
+    padding: 0px;
+    display: flex;
+    gap: 10px;
+    width: 300px;
+    height: 40px;
+    border-radius: 12px;
+    background: #DBEAFE;
+    color: #2563EB;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+}
+.containerRowGraph{
+    display: flex;
+    gap: 30px;
+}
+.graph{
+    width: 800px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    background:var(--cards-bg);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.graph:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+}
+.graphTittle{
+    font-size: 25px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.menu{
+    width: 300px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    background:var(--cards-bg);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.menu:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+}
+.menuTittle{
+    font-size: 25px;
+    margin-top: 20px;
+    margin-left: 20px;
+}

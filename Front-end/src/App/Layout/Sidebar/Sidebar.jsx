@@ -14,13 +14,13 @@ function Sidebar(){
          </div>
          <div className={styles.containerRoutes}>
                <div className={styles.route}>
-                  <span className={styles.routeName} onClick={()=> navigate('/Home')}>Home</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/')}>Home</span>
                </div>
                  <div className={styles.route}>
-                  <span className={styles.routeName} onClick={()=> navigate('/Products')}>Products</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/Products')}>Produtos</span>
                </div>
                  <div className={styles.route}>
-                  <span className={styles.routeName}>Movimentações</span>
+                  <span className={styles.routeName}>Cadastro</span>
                </div>
                <div className={styles.route}>
                   <span className={styles.routeName}>Usuários</span>

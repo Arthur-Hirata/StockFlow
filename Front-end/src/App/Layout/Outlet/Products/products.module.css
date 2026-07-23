@@ -1,8 +1,7 @@
-.sectionHome{
+.sectionProducts{
     background-color:var(--background);
     width: 83vw;
     height: 100vw;
     display: flex;
     justify-content: center;
-
 }
