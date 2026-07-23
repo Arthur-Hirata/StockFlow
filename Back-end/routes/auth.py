@@ -21,27 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-
-
-
-
-
-
-
-def validar_token(auth_header, mensagem_ausente="Token ausente!", mensagem_expirada="Token expirado!", mensagem_invalido="Token inválido!"):
-    if not auth_header or " " not in auth_header:
-        return None, (jsonify({"mensagem": mensagem_ausente}), 401)
-
-    try:
-        token = auth_header.split(" ", 1)[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        return payload, None
-    except jwt.ExpiredSignatureError:
-        return None, (jsonify({"mensagem": mensagem_expirada}), 401)
-    except jwt.InvalidTokenError:
-        return None, (jsonify({"mensagem": mensagem_invalido}), 401)
-
-
 @app.route('/verifyToken', methods=['GET'])
 def validarToken():
     auth_header = request.headers.get("Authorization")
