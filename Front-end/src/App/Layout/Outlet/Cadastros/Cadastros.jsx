@@ -3,7 +3,7 @@ import styles from "./Cadastros.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 import Button from "../../../../Components/Button/button"
 function Cadastros(){
-    const userToken = localStorage.getItem("token")
+    /*const userToken = localStorage.getItem("token") */
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [lowAmount, setLowAmount] = useState('')
@@ -11,61 +11,122 @@ function Cadastros(){
     const [nameError, setNameError] = useState('')
     const [priceError, setPriceError] = useState('')
     const [amountError, setAmountError] = useState('')
-    const [imageErro, setImageError] = useState('')
+    const [imageError, setImageError] = useState('')
 
-
-
-
-
-
-    const [field, setField] = useState("none")
 
     async function onAdicionar(){
         let valid = true
-        if (name.trim === ""){
+        
+        if (name.trim() === ""){
             valid = false
             setNameError('O produto precisa ter um nome')
         }
-        if (price.trim === ""){
+        if (price.trim() === ""){
             valid = false
             setPriceError('O produto precisa ter um preco estipulado')
-        }
-        if (lowAmount.trim === ""){
+        } 
+        if (lowAmount.trim() === ""){
             valid = false
             setAmountError('O produto precisa ter uma quantidade mínima estipulada')
         }
-        if (image.trim === ""){
+        if (image.trim() === ""){
             valid = false
             setImageError('O produto precisa ter uma imagem atrelada')
+        } 
+        if (!valid){
+            return
+        }
+    }
+    
+    const [idItem, setItemId] = useState('')
+    const [confirmIditem, setIdConfirm] = useState('')
+    const [reason, setReason] = useState('')
+    const [idItemError, setIDError] = useState("")
+    const [confirmError, setConfirmError] = useState("")
+    const [reasonError, setReasonError] = useState("")
+    
+    
+    
+    
+     async function onRemover(){
+        setIDError("")
+        setConfirmError("")
+        setReasonError("")
+
+        let valid = true
+
+        if (idItem.trim() === ""){
+            valid = false
+            setIDError("O ID precisa ser preenchido")
+        }
+
+        if (confirmIditem.trim() === ""){
+            valid = false
+            setConfirmError("O ID precisa ser preenchido")
+        }
+
+        if (reason.trim() === ""){
+            valid = false
+            setReasonError("A razão para a remoção precisa ser explicada")
+        }
+
+        if (idItem.trim() !== "" && confirmIditem.trim() !== "" && idItem.trim() !== confirmIditem.trim()){
+            valid = false
+            setIDError("Os ID's precisam ser iguais")
+            setConfirmError("Os ID's precisam ser iguais")
+        }
+
+        if (!valid){
+            return
+        }
+    }
+    
+    const [editId, setEditID] = useState("")
+    const [confirmEdit, setEditConfirm] = useState("")
+    const [edit, setEdit] = useState("")
+    const [editIdErro, setEditIDErro] = useState("")
+    const [confirmEditError, setConfrimErroEdit] = useState("")
+    const [editError, setEditError] = useState("")
+    const [field, setField] = useState("none")
+    const [fieldError, setFieldError] = useState("")
+    
+
+
+
+
+     async function onEditar(){
+        let valid = true
+        if (editId.trim()===""){
+            valid = false
+            setEditIDErro("O ID precisa estar preenchido")
+        }
+        if (confirmEdit.trim() === ""){
+            valid= false
+            setConfrimErroEdit("O ID precisa estar preenchido")
+        }
+        if (edit.trim()=== ""){
+            valid = false
+            setEditError("A edição precisa estar preenchida")
+        }
+        if (editId.trim()!== "" && confirmEdit.trim() !== ""  &&  editId.trim() !== confirmEdit.trim()){
+            valid = false
+            setEditIDErro("Os ID's precisam ser iguais")
+            setConfrimErroEdit("Os ID's precisam ser iguais")
+        }
+        if (field === "none"){
+            valid = false
+            setFieldError("Campo vazio")
         }
         if (!valid){
             return
         }
-        const response = await fetch("", {
-            method : 'POST',
-            headers: {
-                    Authorization: `Bearer ${userToken}`,
-            },
-            body : JSON.stringify({
-                name : name,
-                price : price,
-                lowAmount : lowAmount,
-                image : image
-            })
-        })
-        if (response.ok){
-            alert("cadastrado")
-        }
-        else {
-            alert('bug')
-        }
 
-    }
-    function onRemover(){
-        alert("remover")
-    }
-    function onEditar(){
-        alert("editar")
+
+
+
+
+
+
     }
     return(
         <section>
@@ -75,13 +136,13 @@ function Cadastros(){
                     <span className={styles.cardTittle}>Adicionar Produtos</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>Nome do produto</span>
-                        <input type="text" placeholder="Nome produto" value={name} onChange={(e) => setName(e.target.value)} className={nameError ? styles.error : ""} /> {nameError && <span className={styles.spanErro}>{nameError}</span>}
+                        <input type="text" placeholder="Nome produto" value={name} onChange={(e) => { setName(e.target.value); setNameError('') }} className={nameError ? styles.error : ""} /> {nameError && <span className={styles.spanErro}>{nameError}</span>}
                         <span className={styles.inputRequest}>Preço de venda</span>
-                        <input type="text"  placeholder="Preço de venda" value={price} onChange={(e) => setPrice(e.target.value)}/>
+                        <input type="text"  placeholder="Preço de venda" value={price} onChange={(e) => { setPrice(e.target.value); setPriceError('') }} className={priceError ? styles.error : ""}/> {priceError && <span className={styles.spanErro}>{priceError}</span>}
                         <span className={styles.inputRequest}>Quantidade Mínima no estoque</span>
-                        <input type="text" placeholder="Quantidade Mínima estoque" value={lowAmount} onChange={(e) => setLowAmount(e.target.value)}  />
+                        <input type="text" placeholder="Quantidade Mínima estoque" value={lowAmount} onChange={(e) => { setLowAmount(e.target.value); setAmountError('') }}  className={amountError ? styles.error : ""}/> {amountError && <span className={styles.spanErro}>{amountError}</span>}
                         <span className={styles.inputRequest}>Imagem do produto</span>
-                        <input type="text" placeholder="Url da imagem" value={image}  onChange={(e) => setImage(e.target.value)}/>
+                        <input type="text" placeholder="Url da imagem" value={image}  onChange={(e) => { setImage(e.target.value); setImageError('') }}  className={imageError ? styles.error : ""}/> {imageError && <span className={styles.spanErro}>{imageError}</span>}
                     </div>
                     <Button 
                         text="Adicionar"
@@ -93,11 +154,11 @@ function Cadastros(){
                     <span className={styles.cardTittle}>Remover Produtos</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID do produto</span>
-                        <input type="text" placeholder="ID produto"/>
+                        <input type="text" placeholder="ID produto" value={idItem} onChange={(e)=> { setItemId(e.target.value); setIDError("") }} className={idItemError ? styles.error : ""}/>  {idItemError && <span className={styles.spanErro}>{idItemError}</span>}
                         <span className={styles.inputRequest}>Confirme ID do produto</span>
-                        <input type="text" placeholder="ID produto"/>
+                        <input type="text" placeholder="ID produto" value={confirmIditem} onChange={(e) => { setIdConfirm(e.target.value); setConfirmError("") }} className={confirmError ? styles.error : ""}/> {confirmError && <span className={styles.spanErro}>{confirmError}</span>}
                         <span className={styles.inputRequest}>Motivo da remoção</span>
-                        <input type="text" placeholder="Motivo da remoção"/>
+                        <input type="text" placeholder="Motivo da remoção" value={reason} onChange={(e) => { setReason(e.target.value); setReasonError("") }} className={reasonError ? styles.error : ""}/> {reasonError && <span className={styles.spanErro}>{reasonError}</span>}
                     </div>
                     <Button
                         text="Remover"
@@ -109,14 +170,14 @@ function Cadastros(){
                     <span className={styles.cardTittle}>Editar Produto</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID do Produto</span>
-                        <input type="text" placeholder="ID produto"/>
+                        <input type="text" placeholder="ID produto" value={editId} onChange={(e)=> {setEditID(e.target.value); setEditIDErro("")}} className={editIdErro ? styles.error : ""}/>  {editIdErro && <span className={styles.spanErro}>{editIdErro}</span>}
                         <span className={styles.inputRequest}>Confirme ID do produto</span>
-                        <input type="text" placeholder="ID produto"/>
+                        <input type="text" placeholder="ID produto"  value={confirmEdit} onChange={(e)=>{setEditConfirm(e.target.value); setConfrimErroEdit("")}} className={confirmEditError ? styles.error : ""} /> {confirmEditError && <span className={styles.spanErro}>{confirmEditError}</span>}
                         <span className={styles.inputRequest}>Edição</span>
-                        <input type="text" placeholder="Digite a edição" />
+                        <input type="text" placeholder="Digite a edição" value={edit} onChange={(e) => { setEdit(e.target.value); setEditError("") }} className={editError ? styles.error : ""} /> {editError && <span className={styles.spanErro}>{editError}</span>}
                     <select 
                         value={field}
-                        onChange={(e) => setField(e.target.value)}
+                        onChange={(e) => { setField(e.target.value); setFieldError("") }}
                     
                     className={styles.select}>
                         <option value="none" disabled selected hidden>Selecione</option>
@@ -125,6 +186,7 @@ function Cadastros(){
                         <option value="image">Imagem do produto</option>
                         <option value="low_amount">Quantidade mínima do produto</option>
                     </select>
+                    {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
                     </div>
                     <Button 
                         text="Editar"

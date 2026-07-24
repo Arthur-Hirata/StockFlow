@@ -20,7 +20,7 @@
 .cardTittle{
     font-size: 20px;
     font-weight: 700;
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
 }
 .userAction{
@@ -32,7 +32,8 @@
 .userAction input[type="text"]{
     width: 100%;
     max-width: 300px;
-    padding: 8px 12px;
+    padding:1px;
+    margin-top: -10px;
     border-radius: 8px;
     border: 1px solid rgba(0,0,0,0.08);
     background: var(--cards-bg);
@@ -40,8 +41,7 @@
     box-shadow: var(--shadow);
     box-sizing: border-box;
 }
-.userAction input[type='text'].error,
-.userAction input[type='password'].error {
+.userAction input[type='text'].error{
   border: 1px solid var(--red);
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
 }
@@ -60,7 +60,10 @@ select{
     box-shadow: var(--shadow);
     box-sizing: border-box;
 }
-
+select.error{
+    border: 1px solid var(--red);
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
 select option{
     background: var(--cards-bg);
     color: var(--text-color);
@@ -77,4 +80,5 @@ select::-ms-expand{
     font-size: 10px;
     font-weight: bold;
     margin-left: 5px;
+    margin-top: -12px;
 }
