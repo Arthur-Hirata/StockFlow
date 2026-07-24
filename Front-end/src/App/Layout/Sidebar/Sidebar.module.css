@@ -54,6 +54,7 @@ aside{
     align-items: center;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
     transition: transform 0.3s ease-in-out;
+    cursor: pointer;
 }
 .route:hover{
     transform: scale(1.07);

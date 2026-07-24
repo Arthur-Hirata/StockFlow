@@ -1,8 +1,11 @@
 import styles from "./Logs.module.css"
-
+import SectionTittle from "../../../Section-Tittle/Section-tittle"
 function Logs(){
     return(
-        <section className={styles.containerLogs}></section>
+        <section >
+            < SectionTittle text={"Logs"} />
+            <div className={styles.containerLogs}></div>
+        </section>
     )
 }
 export default Logs
