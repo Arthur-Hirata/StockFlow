@@ -20,13 +20,13 @@ function Sidebar(){
                   <span className={styles.routeName} onClick={()=> navigate('/Products')}>Produtos</span>
                </div>
                  <div className={styles.route}>
-                  <span className={styles.routeName}>Cadastro</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/Cadastro')}>Cadastro</span>
                </div>
                <div className={styles.route}>
-                  <span className={styles.routeName}>Usuários</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/Users')}>Usuários</span>
                </div>
                <div className={styles.route}>
-                  <span className={styles.routeName}>Logs</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/Logs')}>Logs</span>
                </div>
          </div>
        </aside>

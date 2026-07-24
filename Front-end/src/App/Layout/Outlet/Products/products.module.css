@@ -21,4 +21,39 @@
     height: 300px;
     border-radius: 12px;
     background: var(--cards-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.Produto:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.fotoProduto{
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+}
+.nomeProduto{
+    width: 120px;
+    height: 40px;
+    border-radius: 12px;
+    background: #DBEAFE;
+    color: #2563EB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quantidade{
+
+    font-size: 25px;
+}
+.quantidadeMinima{
+    position: absolute;
+    margin-top: 250px;
+    margin-left: 250px;
+    color:  var(--red);
 }

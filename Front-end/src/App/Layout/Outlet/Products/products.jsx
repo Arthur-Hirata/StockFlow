@@ -8,7 +8,12 @@ function Products(){
             <div className={styles.sectionProducts}>
                 <div className={styles.gridProducts}>
                     <div className={styles.Produto}>
-                        da
+                        <img src="https://www.cozinhadonabenta.com.br/wp-content/uploads/2018/11/site-jmacedo-farinha-de-trigo-dona-benta-tipo-1-1kg-embalagem-plastica-2023.jpg" className={styles.fotoProduto} />
+                        <span className={styles.nomeProduto}>Farinha</span>
+                        <div className={styles.divQuantidade}>
+                            <span className={styles.quantidade}>15x</span>
+                        </div>
+                            <span className={styles.quantidadeMinima}>10x</span>
                     </div>
                     <div className={styles.Produto}>
                         da

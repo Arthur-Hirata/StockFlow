@@ -72,6 +72,12 @@
     justify-content: center;
     align-items: center;
     margin-left: 30px;
+    transition: transform .25s ease, box-shadow .25s ease;
+
+}
+.dataRow:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
 }
 .containerRowGraph{
     display: flex;
