@@ -40,6 +40,11 @@
     box-shadow: var(--shadow);
     box-sizing: border-box;
 }
+.userAction input[type='text'].error,
+.userAction input[type='password'].error {
+  border: 1px solid var(--red);
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
 select{
     width: 200px;
     padding: 8px 12px;
@@ -66,4 +71,10 @@ select::-ms-expand{
 }
 .inputRequest{
     margin-top: 20px;
+}
+.spanErro{
+    color: var(--red);
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 5px;
 }
