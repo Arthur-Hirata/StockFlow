@@ -1,5 +1,5 @@
 import styles from "./Logs.module.css"
-import SectionTittle from "../../../Section-Tittle/Section-tittle"
+import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 function Logs(){
     return(
         <section >

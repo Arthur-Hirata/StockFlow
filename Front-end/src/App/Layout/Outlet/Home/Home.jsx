@@ -1,5 +1,5 @@
 import styles from "./Home.module.css"
-import SectionTittle from "../../../Section-Tittle/Section-tittle"
+import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 import Dashboard from "./Dashboard/Dashboard"
 function Home(){
     return(

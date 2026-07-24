@@ -1,6 +1,5 @@
 import styles from "./products.module.css"
-import SectionTittle from "../../../Section-Tittle/Section-tittle"
-
+import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 function Products(){
     return (
         <section>

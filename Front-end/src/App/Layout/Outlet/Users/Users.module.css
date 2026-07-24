@@ -1,9 +1,0 @@
-.containerUsers{
-    background-color: var(--background);
-    width: 83vw;
-    min-height: calc(100vh - 80px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 24px 0 40px;
-}
