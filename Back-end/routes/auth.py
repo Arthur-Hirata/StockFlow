@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 import os
 import json
@@ -10,18 +10,13 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
-app= Flask(__name__)
-CORS(app, 
-     origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-     supports_credentials=True,
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"])
+auth_bp = Blueprint('auth', __name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-@app.route('/verifyToken', methods=['GET'])
+@auth_bp.route('/verifyToken', methods=['GET'])
 def validarToken():
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -37,7 +32,7 @@ def validarToken():
     except jwt.InvalidTokenError:
         return  (jsonify({"mensagem": "invalid token"}), 401)
 
-@app.route('/loginUser', methods=['POST'])
+@auth_bp.route('/loginUser', methods=['POST'])
 def loginUser():
     dados=request.json
     email = dados.get('email')
@@ -79,6 +74,3 @@ def loginUser():
         print(f"Erro: {e}")
         return jsonify({"mensagem" : "Erro interno"}), 500
 
-
-if __name__ == '__main__':
-    app.run(debug=True)

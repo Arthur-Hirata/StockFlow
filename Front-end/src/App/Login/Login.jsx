@@ -60,8 +60,7 @@ function Login() {
         <div className={styles.userAction}>
           <label className={styles.inputRequest} htmlFor="email">E-mail</label>
           <span className={styles.erroUser}>Usuário não encontrado</span>
-          <input id="email" type="text" placeholder="seu@email.com" value={email} onChange={(e)=> setEmail(e.target.value)} className={emailError ? styles.error : ""} /> {emailError && <span className={styles.spanErro}>{emailError}</span>}
-
+          <input  type="text" placeholder="seu@email.com" value={email} onChange={(e)=> setEmail(e.target.value)} className={emailError ? styles.error : ""} /> {emailError && <span className={styles.spanErro}>{emailError}</span>}
           <label className={styles.inputRequest} htmlFor="password">Senha</label>
           <span className={styles.erroSenha}>Senha Incorreta</span>
           <div className={styles.inputSenha}>

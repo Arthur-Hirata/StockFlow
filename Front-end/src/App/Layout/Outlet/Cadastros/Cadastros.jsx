@@ -2,6 +2,10 @@ import { useState } from "react"
 import styles from "./Cadastros.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 import Button from "../../../../Components/Button/button"
+import ConfirmartionModal from "../../../../Components/ConfirmationModal/ConfirmationModal"
+
+
+
 function Cadastros(){
     /*const userToken = localStorage.getItem("token") */
     const [name, setName] = useState('')
@@ -36,6 +40,7 @@ function Cadastros(){
         if (!valid){
             return
         }
+        <ConfirmartionModal />
     }
     
     const [idItem, setItemId] = useState('')
