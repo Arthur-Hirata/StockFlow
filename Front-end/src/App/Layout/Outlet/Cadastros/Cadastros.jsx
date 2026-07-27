@@ -17,7 +17,7 @@ function Cadastros(){
     const [amountError, setAmountError] = useState('')
     const [imageError, setImageError] = useState('')
 
-
+    const [confirmModal, setConfirmModal] = useState(null)
     async function onAdicionar(){
         let valid = true
         
@@ -40,7 +40,23 @@ function Cadastros(){
         if (!valid){
             return
         }
-        <ConfirmartionModal />
+
+       setConfirmModal({
+            content : "adicionar esse produto",
+            text : "Adicionar",
+            color1 : "--green",
+            color2 : "--red",
+
+            onConfirm : async() =>{
+                setConfirmModal(null)
+                console.log(name)
+            }
+
+
+
+
+
+       })
     }
     
     const [idItem, setItemId] = useState('')
@@ -125,8 +141,8 @@ function Cadastros(){
         if (!valid){
             return
         }
-
-
+        
+        
 
 
 
@@ -154,6 +170,12 @@ function Cadastros(){
                         onClick={onAdicionar}
                         color="--green"
                     />
+                    {confirmModal && <ConfirmartionModal onClose={()=>setConfirmModal(null)} 
+                    onConfirm={confirmModal.onConfirm}
+                    content={confirmModal.content} 
+                    color1={confirmModal.color1} 
+                    color2={confirmModal.color2}   
+                    text={confirmModal.text}   />}
                 </div>
                 <div className={styles.cardCadastro}>
                     <span className={styles.cardTittle}>Remover Produtos</span>
