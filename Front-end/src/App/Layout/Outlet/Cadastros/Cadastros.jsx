@@ -49,7 +49,7 @@ function Cadastros(){
 
             onConfirm : async() =>{
                 setConfirmModal(null)
-                const response = await fetch("http://127.0.0.1:5000/addProduct", {
+                const response = await fetch("http://127.0.0.1:5000/product", {
                     method : "POST",
                     headers: {
                     "Content-Type": "application/json",
@@ -117,8 +117,39 @@ function Cadastros(){
         if (!valid){
             return
         }
+        setConfirmModal({
+            content : "remover esse produto",
+            text : "Fechar",
+            color1 : "--green",
+            color2 : "--red",
+
+            onConfirm : async() =>{
+                setConfirmModal(null)
+                const response = await fetch(`http://127.0.0.1:5000/product/${idItem}`, {
+                    method : "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body : JSON.stringify({
+                        reason :reason
+                    })
+                })
+                const data = await response.json()
+                if (response.ok){
+                    alert(data.mensagem)
+                    setItemId('')
+                    setIdConfirm('')
+                    setReason('')
+                }
+                else{
+                    alert(data.mensagem)
+                }
+            }
+
+        })
     }
-    
+
     const [editId, setEditID] = useState("")
     const [confirmEdit, setEditConfirm] = useState("")
     const [edit, setEdit] = useState("")
@@ -209,6 +240,13 @@ function Cadastros(){
                         onClick={onRemover}
                         color="--red"
                     />
+                    {confirmModal && <ConfirmartionModal onClose={()=> setConfirmModal(null)}
+                        onConfirm={confirmModal.onConfirm}
+                        content={confirmModal.content}
+                        color1={confirmModal.color1}
+                        color2={confirmModal.color2}
+                        text={confirmModal.text}
+                        />}
                 </div>
                 <div className={styles.cardCadastro}>
                     <span className={styles.cardTittle}>Editar Produto</span>
