@@ -1,6 +1,5 @@
 import sqlite3
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify
 import os
 import json
 from dotenv import load_dotenv
@@ -10,12 +9,7 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
-app= Flask(__name__)
-CORS(app, 
-     origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-     supports_credentials=True,
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"])
+cadastro_bp = Blueprint("cadastro", __name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
@@ -23,12 +17,12 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 from routes.Logs import LogProduto
 
-@app.route("/addProduct", methods=['POST'])
+@cadastro_bp.route("/addProduct", methods=['POST'])
 def addProduct():
     dados = request.json
     name = dados.get('name')
     price =dados.get('price')
-    low_amoutn = dados.get('low_amount')
+    low_amount = dados.get('low_amount')
     image = dados.get('image')
     amoutn = 0
     auth_header = request.headers.get('Authorization')
@@ -49,7 +43,7 @@ def addProduct():
             return jsonify({"mensagem" : "Banco não encontrado"}), 500
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
-        cursor.execute("INSERT INTO products (name, price, amount, low_amount, image) VALUES (?,?,?,?,?)", (name, price, amoutn, low_amoutn, image))
+        cursor.execute("INSERT INTO products (name, price, amount, low_amount, image) VALUES (?,?,?,?,?)", (name, price, amoutn, low_amount, image))
         
         conexao.commit()
         id_produto = cursor.lastrowid
@@ -63,5 +57,6 @@ def addProduct():
 
 
     except sqlite3.Error as e:
+        print(e)
         return jsonify({"mensagem" : "Erro ao adicionar produto"}), 500
     

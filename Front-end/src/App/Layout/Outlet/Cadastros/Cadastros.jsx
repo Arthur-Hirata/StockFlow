@@ -7,7 +7,7 @@ import ConfirmartionModal from "../../../../Components/ConfirmationModal/Confirm
 
 
 function Cadastros(){
-    /*const userToken = localStorage.getItem("token") */
+    const userToken = localStorage.getItem("token") 
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [lowAmount, setLowAmount] = useState('')
@@ -49,13 +49,30 @@ function Cadastros(){
 
             onConfirm : async() =>{
                 setConfirmModal(null)
-                console.log(name)
+                const response = await fetch("http://127.0.0.1:5000/addProduct", {
+                    method : "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                    
+                },
+                    body : JSON.stringify({
+                        name : name,
+                        price : price,
+                        low_amount : lowAmount,
+                        image : image
+                    })
+                })
+                const data = await response.json()
+                if (response.ok){
+                    alert(data.mensagem)
+                }
+                else {
+                    alert(data.mensagem)
+                }
+
+
             }
-
-
-
-
-
        })
     }
     
