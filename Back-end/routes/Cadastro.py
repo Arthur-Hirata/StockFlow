@@ -90,3 +90,44 @@ def deleteProduct(id):
     except sqlite3.Error as e:
         print (e)
         return jsonify({"mensagem" : "Erro ao remover produto"}), 500
+
+@cadastro_bp.route('/product/<int:id>', methods=['PATCH'])
+def editProduct(id):
+    dados = request.json
+    field = dados.get('field')
+    edicao = dados.get('edicao')
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"mensagem" : "Usuário não loggado"}), 404
+    try :
+        token = auth_header.split(" ", 1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        nome = payload['nome']
+        id_user = payload['sub']
+    except jwt.ExpiredSignatureError:
+        return jsonify({"mensagem" : "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"mensagem" : "Token inválido"}), 401
+    permitidos = {
+        'name',
+        'price',
+        'low_amount',
+        'image'
+    }
+    if field not in permitidos :
+        return jsonify({"mensagem" : "Campo inválido"}), 400
+    try :
+        conexao = sqlite3.connect(db_path)
+        cursor= conexao.cursor()
+        sql = f"UPDATE products SET {field} =? WHERE id=?"
+        cursor.execute(sql, (edicao,id))
+        conexao.commit()
+        conexao.close()
+        activity = "editou"
+        Logsucesso = LogProduto(nome, id_user, id, activity)
+        if not Logsucesso:
+            return jsonify({"mensagem" : "Log não adicionado"}), 201
+        return jsonify({"mensagem" : "Produto editado com sucesso"}), 200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro ao editar produto"}), 500

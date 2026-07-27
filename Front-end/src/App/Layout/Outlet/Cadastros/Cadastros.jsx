@@ -189,7 +189,32 @@ function Cadastros(){
         if (!valid){
             return
         }
-        
+        setConfirmModal({
+            content : "editar esse produto",
+            text : "Fechar",
+            color1 : "--green",
+            color2 : "--red",
+            onConfirm : async () =>{
+                const response = await fetch(`http://127.0.0.1:5000/product/${editId}`, {
+                    method : 'PATCH',
+                     headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body : JSON.stringify({
+                        edicao : edit,
+                        field : field
+                    })
+                })
+                const data = await response.json()
+                if (response.ok){
+                    alert(data.mensagem)
+                }
+                else {
+                    alert(data.mensagem)
+                }
+            }
+        })
         
 
 
@@ -275,6 +300,13 @@ function Cadastros(){
                         onClick={onEditar}
                         color="--alert"
                     />
+                     {confirmModal && <ConfirmartionModal onClose={()=> setConfirmModal(null)}
+                        onConfirm={confirmModal.onConfirm}
+                        content={confirmModal.content}
+                        color1={confirmModal.color1}
+                        color2={confirmModal.color2}
+                        text={confirmModal.text}
+                        />}
                 </div>
             </div>
 
