@@ -238,7 +238,7 @@ function CadastroProd(){
                     setEditID("")
                     setEditConfirm("")
                     setEdit("")
-    
+                        
                     if (response.ok){
                        setAlertOverlay({
                         text : "Produto editado com sucesso",

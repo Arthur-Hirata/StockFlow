@@ -6,7 +6,7 @@
 }
 .cardCadastro{
     width: 440px;
-    height: 490px;
+    height: 550px;
     display: flex;
     flex-direction: column;
     background:var(--cards-bg);
