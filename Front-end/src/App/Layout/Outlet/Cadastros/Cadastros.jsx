@@ -3,7 +3,7 @@ import styles from "./Cadastros.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 import Button from "../../../../Components/Button/button"
 import ConfirmartionModal from "../../../../Components/ConfirmationModal/ConfirmationModal"
-
+import AlertOverlay from "../../../../Components/alertOvelay/alertOvelay"
 
 
 function Cadastros(){
@@ -18,6 +18,7 @@ function Cadastros(){
     const [imageError, setImageError] = useState('')
 
     const [confirmModal, setConfirmModal] = useState(null)
+    const [alertOverlay, setAlertOverlay] = useState(null)
     async function onAdicionar(){
         let valid = true
         
@@ -63,15 +64,32 @@ function Cadastros(){
                         image : image
                     })
                 })
-                const data = await response.json()
+                setName("")
+                setPrice("")
+                setLowAmount("")
+                setImage("")
+                
                 if (response.ok){
-                    alert(data.mensagem)
+                    setAlertOverlay({
+                        text:"Produto adicionado com sucesso",
+                        color:"--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    
+                    
                 }
                 else {
-                    alert(data.mensagem)
+                    setAlertOverlay({
+                        text:"Erro ao adicionar o produto",
+                        color:"--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    
                 }
-
-
             }
        })
     }
@@ -135,15 +153,27 @@ function Cadastros(){
                         reason :reason
                     })
                 })
-                const data = await response.json()
+                setItemId('')
+                setIdConfirm('')
+                setReason('')
+                
                 if (response.ok){
-                    alert(data.mensagem)
-                    setItemId('')
-                    setIdConfirm('')
-                    setReason('')
+                    setAlertOverlay({
+                        text : "Produto removido com sucesso",
+                        color : "--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
                 }
                 else{
-                    alert(data.mensagem)
+                    setAlertOverlay({
+                        text : "Erro ao remover produto",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
                 }
             }
 
@@ -195,6 +225,7 @@ function Cadastros(){
             color1 : "--green",
             color2 : "--red",
             onConfirm : async () =>{
+                setConfirmModal(null)
                 const response = await fetch(`http://127.0.0.1:5000/product/${editId}`, {
                     method : 'PATCH',
                      headers: {
@@ -206,24 +237,39 @@ function Cadastros(){
                         field : field
                     })
                 })
-                const data = await response.json()
+                setEditID("")
+                setEditConfirm("")
+                setEdit("")
+
                 if (response.ok){
-                    alert(data.mensagem)
+                   setAlertOverlay({
+                    text : "Produto editado com sucesso",
+                    color: "--green"
+                   })
+                   setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
                 }
                 else {
-                    alert(data.mensagem)
+                    setAlertOverlay({
+                        text : "Erro ao editar produto",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
                 }
             }
         })
-        
-
-
-
-
-
     }
     return(
         <section>
+            {alertOverlay && (
+            <AlertOverlay
+                text={alertOverlay.text}
+                color={alertOverlay.color}
+            />
+        )}
             <SectionTittle text={"Cadastros"} />
             <div className={styles.containerCadastro}>
                 <div className={styles.cardCadastro}>
@@ -309,7 +355,7 @@ function Cadastros(){
                         />}
                 </div>
             </div>
-
+            
         </section>
     )
 }
