@@ -5,7 +5,7 @@ import ConfirmartionModal from "../../../../../Components/ConfirmationModal/Conf
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 
 function CadastroProd(){
-     const userToken = localStorage.getItem("token") 
+        const userToken = localStorage.getItem("token") 
         const [name, setName] = useState('')
         const [price, setPrice] = useState('')
         const [lowAmount, setLowAmount] = useState('')
@@ -75,8 +75,6 @@ function CadastroProd(){
                         setTimeout(() => {
                             setAlertOverlay(null);
                         }, 3000);
-                        
-                        
                     }
                     else {
                         setAlertOverlay({

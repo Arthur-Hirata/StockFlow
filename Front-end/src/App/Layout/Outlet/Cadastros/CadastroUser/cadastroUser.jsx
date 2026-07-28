@@ -5,8 +5,10 @@ import ConfirmartionModal from "../../../../../Components/ConfirmationModal/Conf
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 
 function CadastroUser(){
+    const userToken = localStorage.getItem("token") 
+
     const [alertOverlay, setAlertOverlay] = useState(null)
-    const [ConfirmartionModal, setConfirmModal] = useState(null)
+    const [confirmModal, setConfirmModal] = useState(null)
 
 
 
@@ -57,21 +59,64 @@ function CadastroUser(){
         }
         setConfirmModal({
             content : "adicionar esse usuário",
-            text : "adicionar",
+            text : "Adicionar",
             color1 : "--green",
             color2 : "--red",
 
             onConfirm: async ()=> {
-                setAlertOverlay(null)
-                const response = fetch("")
-
-
+                setConfirmModal(null)
+                const response = await fetch("http://127.0.0.1:5000/users", {
+                    method : 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body : JSON.stringify({
+                        email : emailUser,
+                        name : userName,
+                        password : userPassword,
+                        role : field
+                    })
+                })
+                const data = await response.json()
+                if (response.ok){
+                    setAlertOverlay({
+                        text : "Usuário adicionado com sucesso",
+                        color : "--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    console.log(data.mensagem)
+                    setEmailUser("")
+                    setUserName("")
+                    setUserPassword("")
+                    setField("none")
+                }
+                else{
+                    if (data.mensagem === "Email já cadastrado"){
+                        setAlertOverlay({
+                            text : "Email já cadastrado na empresa",
+                            color : "--red"
+                        })
+                        
+                        setTimeout(() => {
+                                setAlertOverlay(null);
+                        }, 3000);
+                    }
+                    else{
+                        setAlertOverlay({
+                            text : "Erro ao adicionar usuário",
+                            color : "--red"
+                        })
+                        
+                        setTimeout(() => {
+                                setAlertOverlay(null);
+                        }, 3000);
+                    }
+                }
             }
         })
-
-
-
-
     }
     return(
         <section>
@@ -91,7 +136,7 @@ function CadastroUser(){
                             <input type="text" placeholder="Digite o nome do usuário" value={userName} onChange={(e) => {setUserName(e.target.value); setUserNameError("")}} /> {userNameError && <span className={styles.spanErro}>{userNameError}</span>}
                             <span className={styles.inputRequest}>Senha do usuário</span>
                             <div className={styles.divPassword}>
-                                <input type="password" type={mostrarSenha ? "text" : "password"} placeholder="Digite a senha para a conta do usuário" value={userPassword} onChange={(e) => {setUserPassword(e.target.value);setUserPasswordError("")}}/>
+                                <input type={mostrarSenha ? "text" : "password"} placeholder="Digite a senha para a conta do usuário" value={userPassword} onChange={(e) => {setUserPassword(e.target.value);setUserPasswordError("")}}/>
                                 <button className={styles.btnOlho} onClick={()=> setMostrarSenha(!mostrarSenha)}><i className={mostrarSenha ? "fas fa-eye-slash" : "fas fa-eye"}></i></button>
                             </div>
                             {userPasswordError && <span className={styles.spanErro}>{userPasswordError}</span>}
@@ -112,14 +157,15 @@ function CadastroUser(){
                                 text={"Adicionar"}
                                 color={"--green"}
                                 onClick={onAdcUser}                   
-                            />
-                            {ConfirmartionModal && < ConfirmartionModal onClose={()=>setConfirmModal(null)} 
-                                onClick={ConfirmartionModal.onConfirm}
-                                content={ConfirmartionModal.content} 
-                                color1={ConfirmartionModal.color1} 
-                                color2={ConfirmartionModal.color2}   
-                                text={ConfirmartionModal.text} 
+                                />
+                            {confirmModal && <ConfirmartionModal onClose={()=>setConfirmModal(null)} 
+                                onConfirm={confirmModal.onConfirm}
+                                content={confirmModal.content} 
+                                color1={confirmModal.color1} 
+                                color2={confirmModal.color2}   
+                                text={confirmModal.text}   
                             />}
+                            
                 </div>
                 <div className={styles.cardCadastro}>
                     <span className={styles.cardTittle}>Remover Usuários</span>

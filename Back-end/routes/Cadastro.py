@@ -16,6 +16,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 from routes.Logs import LogProduto
+from routes.Logs import LogUsers
 db_path = os.getenv("DATABASE_PATH")
 
 @cadastro_bp.route("/product", methods=['POST'])
@@ -66,7 +67,7 @@ def deleteProduct(id):
     reason = dados.get("reason")
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        return jsonify({"mensagem" : "Usuário não loggado"}), 404
+        return jsonify({"mensagem" : "Usuário não loggado"}), 401
     try :
         token = auth_header.split(" ", 1)[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -98,7 +99,7 @@ def editProduct(id):
     edicao = dados.get('edicao')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        return jsonify({"mensagem" : "Usuário não loggado"}), 404
+        return jsonify({"mensagem" : "Usuário não loggado"}), 401
     try :
         token = auth_header.split(" ", 1)[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -131,3 +132,50 @@ def editProduct(id):
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro ao editar produto"}), 500
+@cadastro_bp.route('/users', methods=['POST'])
+def adcUsers():
+    dados = request.json
+    email = dados.get('email')
+    username = dados.get('name')
+    password = dados.get("password")
+    role = dados.get('role')
+    password_hash = generate_password_hash(password)
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"mensagem" : "Usuário não loggado"}), 401
+    try :
+        token = auth_header.split(" ",1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        nome = payload['nome']
+        id_user=payload['sub']
+    except jwt.ExpiredSignatureError:
+        return jsonify({"mensagem" : "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"mensagem" : "Token inválido"}), 401
+    permitidos = {
+        'user',
+        'admin'
+    }
+    if role not in permitidos:
+        return jsonify({"mensagem" : "Cargo não permitido"}), 401
+    try :
+        conexao = sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        cursor.execute("SELECT id FROM users WHERE email=?", (email,))
+        usuario_existente = cursor.fetchone()
+        if usuario_existente:
+            return jsonify({"mensagem" : 'Email já cadastrado'}), 409
+        cursor.execute("INSERT INTO users (nome, email, password, role) VALUES (?,?,?,?)", (username, email, password_hash, role))
+        conexao.commit()
+        id_adicionado = cursor.lastrowid
+        conexao.close()
+        
+        logSucesso = LogUsers(nome, id_user, username, id_adicionado, role)
+        if not logSucesso:
+            return jsonify({"mensagem" : "Log não adicionado"}), 201
+        return jsonify({"mensagem" : "Usuário adicionado com sucesso"}), 200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro ao adicionar usuário"}), 500
+        
+        
