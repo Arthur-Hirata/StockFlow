@@ -99,7 +99,7 @@ function CadastroUser(){
                             text : "Email já cadastrado na empresa",
                             color : "--red"
                         })
-                        
+                        setEmailError("Email já cadastrado")
                         setTimeout(() => {
                                 setAlertOverlay(null);
                         }, 3000);
@@ -124,21 +124,30 @@ function CadastroUser(){
     const [id, setId] = useState("")
     const [confirmId, setConfirmID] = useState("")
     const [reason, setReason] = useState("")
+    const [idError, setIdError] = useState("")
+    const [confirmIdError, setConfirmIdError] = useState("")
+    const [reasonError, setReasonError] = useState("")
+
 
     function onRemoveUser(){
         let valid = true
 
         if (id.trim() === ""){
             valid = false
+            setIdError("ID precisa estar preenchido")
         }
         if (confirmId.trim() === ""){
             valid = false
+            setConfirmIdError("ID precisa estar preenchido")
         }
         if (id.trim() === "" && confirmId.trim() === "" && id.trim() !== confirmId.trim()){
             valid = false
+            setIdError("Os ID's precisam ser iguais")
+            setConfirmIdError("Os ID's precisam ser iguais")
         }
         if (reason.trim() === ""){
             valid = false
+            setReasonError("O motivo precisa estar preenchido")
         }
 
         if (!valid){
@@ -160,9 +169,12 @@ function CadastroUser(){
                         Authorization: `Bearer ${userToken}`,
                     },
                     body : JSON.stringify({
-                        id : id
+                        reason : reason
                     })
                 })
+                setId("")
+                setConfirmID("")
+                setReason("")
                 const data = await response.json()
 
                 if (response.ok){
@@ -210,19 +222,19 @@ function CadastroUser(){
                     <span className={styles.cardTittle}>Cadastrar Usuários</span>
                         <div className={styles.userAction}>
                             <span className={styles.inputRequest}>E-mail do usuário</span>
-                            <input type="text" placeholder="Digite o e-mail do usuário" value={emailUser} onChange={(e) => {setEmailUser(e.target.value);setEmailError("")}}/> {emailUserError && <span className={styles.spanErro}>{emailUserError}</span>}
+                            <input type="text" placeholder="Digite o e-mail do usuário" value={emailUser} onChange={(e) => {setEmailUser(e.target.value);setEmailError("")}} className={emailUserError ? styles.error : ""}/> {emailUserError && <span className={styles.spanErro}>{emailUserError}</span>}
                             <span className={styles.inputRequest}>Nome do usuário</span>
-                            <input type="text" placeholder="Digite o nome do usuário" value={userName} onChange={(e) => {setUserName(e.target.value); setUserNameError("")}} /> {userNameError && <span className={styles.spanErro}>{userNameError}</span>}
+                            <input type="text" placeholder="Digite o nome do usuário" value={userName} onChange={(e) => {setUserName(e.target.value); setUserNameError("")}}  className={userNameError ? styles.error : ""}/> {userNameError && <span className={styles.spanErro}>{userNameError}</span>}
                             <span className={styles.inputRequest}>Senha do usuário</span>
                             <div className={styles.divPassword}>
-                                <input type={mostrarSenha ? "text" : "password"} placeholder="Digite a senha para a conta do usuário" value={userPassword} onChange={(e) => {setUserPassword(e.target.value);setUserPasswordError("")}}/>
+                                <input type={mostrarSenha ? "text" : "password"} placeholder="Digite a senha para a conta do usuário" value={userPassword} onChange={(e) => {setUserPassword(e.target.value);setUserPasswordError("")}} className={userPasswordError ? styles.error : ""}/>
                                 <button className={styles.btnOlho} onClick={()=> setMostrarSenha(!mostrarSenha)}><i className={mostrarSenha ? "fas fa-eye-slash" : "fas fa-eye"}></i></button>
                             </div>
                             {userPasswordError && <span className={styles.spanErro}>{userPasswordError}</span>}
                             <select 
                                 value={field}
                                 onChange={(e) => { setField(e.target.value); setFieldError("")}}
-                               
+                               className={fieldError ? styles.error : ""}
                             
                             >
                                 <option value="none">Selecione</option>
@@ -250,11 +262,11 @@ function CadastroUser(){
                     <span className={styles.cardTittle}>Remover Usuários</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID usuário</span>
-                            <input type="text" placeholder="Digite o ID do usuário" value={id} onChange={(e) => {setId(e.target.value);}} />
+                            <input type="text" placeholder="Digite o ID do usuário" value={id} onChange={(e) => {setId(e.target.value); setIdError("")}} className={idError ? styles.error : ""}/> {idError && <span  className={styles.spanErro}>{idError}</span>}
                             <span className={styles.inputRequest}>Confirme o ID do usuário</span>
-                            <input type="text" placeholder="Confirme o ID do usuário" value={confirmId} onChange={(e) => {setConfirmID(e.target.value)}} />
+                            <input type="text" placeholder="Confirme o ID do usuário" value={confirmId} onChange={(e) => {setConfirmID(e.target.value); setConfirmIdError("")}}  className={confirmIdError ? styles.error : ""}/> {confirmIdError && <span  className={styles.spanErro}>{confirmIdError}</span>}
                             <span className={styles.inputRequest}>Motivo da remoção</span>
-                            <input type="text"  placeholder="Informe o motivo da remoção do usuário" value={reason} onChange={(e) => {setReason(e.target.value)}}/>
+                            <input type="text"  placeholder="Informe o motivo da remoção do usuário" value={reason} onChange={(e) => {setReason(e.target.value); setReasonError("")}} className={reasonError ? styles.error : ""}/> {reasonError && <span  className={styles.spanErro}>{reasonError}</span>}
                     </div>
                         <Button 
                             text={"Remover"}

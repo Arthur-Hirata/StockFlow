@@ -39,7 +39,8 @@
     box-sizing: border-box;
     padding-left: 10px;
 }
-.userAction input[type='text'].error{
+.userAction input[type='text'].error,
+.userAction input[type='password'].error{
   border: 1px solid var(--red);
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
 }

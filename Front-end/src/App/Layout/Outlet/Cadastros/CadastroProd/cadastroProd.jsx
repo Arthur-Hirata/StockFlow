@@ -326,8 +326,7 @@ function CadastroProd(){
                     <select 
                         value={field}
                         onChange={(e) => { setField(e.target.value); setFieldError("") }}
-                    
-                    className={styles.select}>
+                        className={fieldError ? styles.error : ""}>
                         <option value="none" disabled selected hidden>Selecione</option>
                         <option value="name">Nome do produto</option>
                         <option value="price">Preço do produto</option>
