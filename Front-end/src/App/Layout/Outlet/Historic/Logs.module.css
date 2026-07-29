@@ -7,3 +7,14 @@
     align-items: flex-start;
     padding: 24px 0 40px;
 }
+.divBtns{
+    margin-top: -20px;
+    display: flex;
+    gap: 30px;
+}
+button{
+    background-color: var(--secundary-text);
+}
+.selected{
+    background-color: var(--main-blue);
+}

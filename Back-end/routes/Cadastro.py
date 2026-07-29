@@ -1,14 +1,10 @@
 import sqlite3
 from flask import Blueprint, request, jsonify
 import os
-import json
 from dotenv import load_dotenv
 import jwt
-import datetime
 from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash
 from pathlib import Path
-from datetime import datetime, timedelta, timezone
 cadastro_bp = Blueprint("cadastro", __name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent

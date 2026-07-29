@@ -2,11 +2,9 @@ import sqlite3
 from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 import os
-import json
 from dotenv import load_dotenv
 import jwt
 import datetime
-from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
