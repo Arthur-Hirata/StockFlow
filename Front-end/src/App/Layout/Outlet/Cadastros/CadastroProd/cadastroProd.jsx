@@ -66,7 +66,7 @@ function CadastroProd(){
                     setPrice("")
                     setLowAmount("")
                     setImage("")
-                    
+                    const data = await response.json()
                     if (response.ok){
                         setAlertOverlay({
                             text:"Produto adicionado com sucesso",
@@ -77,14 +77,26 @@ function CadastroProd(){
                         }, 3000);
                     }
                     else {
-                        setAlertOverlay({
-                            text:"Erro ao adicionar o produto",
+                        if (data.mensagem === "Produto já existente"){
+                            setAlertOverlay({
+                            text:"Esse produto já existe",
                             color:"--red"
                         })
                         setTimeout(() => {
                             setAlertOverlay(null);
                         }, 3000);
-                        
+                        setNameError("Esse produto já existe")
+                        }
+                        else{
+                            setAlertOverlay({
+                                text:"Erro ao adicionar o produto",
+                                color:"--red"
+                            })
+                            setTimeout(() => {
+                                setAlertOverlay(null);
+                            }, 3000);
+
+                        }
                     }
                 }
            })
@@ -152,7 +164,7 @@ function CadastroProd(){
                     setItemId('')
                     setIdConfirm('')
                     setReason('')
-                    
+                    const data = await response.json()
                     if (response.ok){
                         setAlertOverlay({
                             text : "Produto removido com sucesso",
@@ -163,13 +175,25 @@ function CadastroProd(){
                         }, 3000);
                     }
                     else{
-                        setAlertOverlay({
-                            text : "Erro ao remover produto",
+                        if (data.mensagem === "Esse produto não existe"){
+                            setAlertOverlay({
+                            text : "Esse produto não existe",
                             color : "--red"
                         })
                         setTimeout(() => {
                             setAlertOverlay(null);
                         }, 3000);
+                        setIDError("Esse produto não existe")
+                        setConfirmError("Esse produto não existe")
+                        }else{
+                            setAlertOverlay({
+                                text : "Erro ao remover produto",
+                                color : "--red"
+                            })
+                            setTimeout(() => {
+                                setAlertOverlay(null);
+                            }, 3000);
+                        }
                     }
                 }
     
@@ -236,7 +260,7 @@ function CadastroProd(){
                     setEditID("")
                     setEditConfirm("")
                     setEdit("")
-                        
+                    const data = await response.json()
                     if (response.ok){
                        setAlertOverlay({
                         text : "Produto editado com sucesso",
@@ -247,13 +271,25 @@ function CadastroProd(){
                         }, 3000);
                     }
                     else {
-                        setAlertOverlay({
-                            text : "Erro ao editar produto",
+                        if (data.mensagem === "Esse produto não existe"){
+                            setAlertOverlay({
+                            text : "Esse produto não existe",
                             color : "--red"
                         })
                         setTimeout(() => {
                             setAlertOverlay(null);
                         }, 3000);
+                        setEditIDErro("Esse produto não existe")
+                        setConfrimErroEdit("Esse produto não existe")
+                        }else{
+                            setAlertOverlay({
+                                text : "Erro ao editar produto",
+                                color : "--red"
+                            })
+                            setTimeout(() => {
+                                setAlertOverlay(null);
+                            }, 3000);
+                        }
                     }
                 }
             })

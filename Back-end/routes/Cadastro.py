@@ -39,6 +39,7 @@ def addProduct():
         return jsonify({"mensagem" : "Token expirado"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"mensagem" : "Token inválido"}), 401
+    conexao = None
     try :
         if not db_path:
             return jsonify({"mensagem" : "Banco não encontrado"}), 500
@@ -52,13 +53,16 @@ def addProduct():
         activity = "adicionou"
         logSuccesso =LogProduto(nome, id_user, id_produto, activity)
         if not logSuccesso:
-            return jsonify({"mensagem" : "Produto adcionando, mas houve uma falha no sistema de logs"}), 201
+            return jsonify({"mensagem" : "Produto adcionado, mas houve uma falha no sistema de logs"}), 201
         return jsonify({"mensagem" : "Produto adcionando com sucesso"}), 200
-
-
-
+    except sqlite3.IntegrityError :
+        if conexao:
+            conexao.close()
+        return jsonify({"mensagem" : "Produto já existente"}), 409
     except sqlite3.Error as e:
         print(e)
+        if conexao:
+            conexao.close()
         return jsonify({"mensagem" : "Erro ao adicionar produto"}), 500
     
 @cadastro_bp.route("/product/<int:id>", methods=["DELETE"])
@@ -77,11 +81,16 @@ def deleteProduct(id):
         return jsonify({"mensagem" : "Token expirado"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"mensagem" : "Token inválido"}), 401
+    conexao = None
     try :
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
         cursor.execute("DELETE FROM products WHERE id=?", (id, ))
         conexao.commit()
+
+        if cursor.rowcount == 0:
+            conexao.close()
+            return jsonify({"mensagem" : "Esse produto não existe"}), 404
         conexao.close()
         activity = "removeu"
         LogSucesso = LogProduto(nome, id_user, id, activity, reason)
@@ -90,6 +99,8 @@ def deleteProduct(id):
         return jsonify({"mensagem" : "Produto removido"})
     except sqlite3.Error as e:
         print (e)
+        if conexao:
+            conexao.close()
         return jsonify({"mensagem" : "Erro ao remover produto"}), 500
 
 @cadastro_bp.route('/product/<int:id>', methods=['PATCH'])
@@ -117,13 +128,19 @@ def editProduct(id):
     }
     if field not in permitidos :
         return jsonify({"mensagem" : "Campo inválido"}), 400
+    conexao = None
     try :
         conexao = sqlite3.connect(db_path)
         cursor= conexao.cursor()
         sql = f"UPDATE products SET {field} =? WHERE id=?"
         cursor.execute(sql, (edicao,id))
         conexao.commit()
+
+        if cursor.rowcount == 0:
+            conexao.close()
+            return jsonify({"mensagem" : "Esse produto não existe"}), 404
         conexao.close()
+
         activity = "editou"
         Logsucesso = LogProduto(nome, id_user, id, activity)
         if not Logsucesso:
@@ -131,6 +148,7 @@ def editProduct(id):
         return jsonify({"mensagem" : "Produto editado com sucesso"}), 200
     except sqlite3.Error as e:
         print(e)
+        conexao.close()
         return jsonify({"mensagem" : "Erro ao editar produto"}), 500
 @cadastro_bp.route('/users', methods=['POST'])
 def adcUsers():
@@ -143,6 +161,7 @@ def adcUsers():
     auth_header = request.headers.get('Authorization')
     if not auth_header:
         return jsonify({"mensagem" : "Usuário não loggado"}), 401
+    conexao = None
     try :
         token = auth_header.split(" ",1)[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -161,10 +180,6 @@ def adcUsers():
     try :
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
-        cursor.execute("SELECT id FROM users WHERE email=?", (email,))
-        usuario_existente = cursor.fetchone()
-        if usuario_existente:
-            return jsonify({"mensagem" : 'Email já cadastrado'}), 409
         cursor.execute("INSERT INTO users (nome, email, password, role) VALUES (?,?,?,?)", (username, email, password_hash, role))
         conexao.commit()
         id_adicionado = cursor.lastrowid
@@ -174,6 +189,9 @@ def adcUsers():
         if not logSucesso:
             return jsonify({"mensagem" : "Log não adicionado"}), 201
         return jsonify({"mensagem" : "Usuário adicionado com sucesso"}), 200
+    except sqlite3.IntegrityError :
+        conexao.close()
+        return jsonify({"mensagem" : 'Email já cadastrado'}), 409
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro ao adicionar usuário"}), 500
@@ -194,13 +212,15 @@ def removerUser(id):
         return jsonify({"mensagem" : "Token expirado"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"mensagem" : "Token inválido"}), 401
+    conexao = None
     try:
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
         cursor.execute("SELECT nome,role FROM users WHERE id=?", (id,))
         id_existente= cursor.fetchone()
         if not id_existente:
-            return jsonify({"mensagem" : "Usuário inexistente"}), 409
+            conexao.close()
+            return jsonify({"mensagem" : "Usuário inexistente"}), 404
         nome_user = id_existente[0]
         role_user = id_existente[1]
         cursor.execute("DELETE FROM users WHERE id=?", (id,))
@@ -212,6 +232,8 @@ def removerUser(id):
         return jsonify({"mensagem" : "Usuário removido com sucesso"}),200
     except sqlite3.Error as e:
         print(e)
+        if conexao:
+            conexao.close()
         return jsonify({"mensagem" : "Erro ao remover usuário"}), 500
 
 

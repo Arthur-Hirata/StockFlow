@@ -11,8 +11,6 @@ function CadastroUser(){
     const [confirmModal, setConfirmModal] = useState(null)
 
 
-
-
     const [mostrarSenha, setMostrarSenha] = useState(null)
     const [emailUser, setEmailUser] =useState("")
     const [userName, setUserName] = useState("")
@@ -118,9 +116,6 @@ function CadastroUser(){
             }
         })
     }
-
-
-
     const [id, setId] = useState("")
     const [confirmId, setConfirmID] = useState("")
     const [reason, setReason] = useState("")
