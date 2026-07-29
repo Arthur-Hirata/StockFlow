@@ -177,5 +177,43 @@ def adcUsers():
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro ao adicionar usuário"}), 500
+
+@cadastro_bp.route('/users/<int:id>', methods=['DELETE'])
+def removerUser(id):
+    dados = request.json
+    reason = dados.get("reason")
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"mensagem" : "Usuário não loggado"}), 401
+    try :
+        token = auth_header.split(" ",1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        nome = payload['nome']
+        id_user=payload['sub']
+    except jwt.ExpiredSignatureError:
+        return jsonify({"mensagem" : "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"mensagem" : "Token inválido"}), 401
+    try:
+        conexao = sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        cursor.execute("SELECT nome,role FROM users WHERE id=?", (id,))
+        id_existente= cursor.fetchone()
+        if not id_existente:
+            return jsonify({"mensagem" : "Usuário inexistente"}), 409
+        nome_user = id_existente[0]
+        role_user = id_existente[1]
+        cursor.execute("DELETE FROM users WHERE id=?", (id,))
+        conexao.commit()
+        conexao.close()
+        logSucesso = LogUsers(nome, id_user, nome_user, id,role_user, reason)
+        if not logSucesso:
+            return jsonify({"mensagem" : "Log não adicionado"}), 201
+        return jsonify({"mensagem" : "Usuário removido com sucesso"}),200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro ao remover usuário"}), 500
+
+
         
         

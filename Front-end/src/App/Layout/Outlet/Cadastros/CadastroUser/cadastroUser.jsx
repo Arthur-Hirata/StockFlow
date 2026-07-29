@@ -118,6 +118,85 @@ function CadastroUser(){
             }
         })
     }
+
+
+
+    const [id, setId] = useState("")
+    const [confirmId, setConfirmID] = useState("")
+    const [reason, setReason] = useState("")
+
+    function onRemoveUser(){
+        let valid = true
+
+        if (id.trim() === ""){
+            valid = false
+        }
+        if (confirmId.trim() === ""){
+            valid = false
+        }
+        if (id.trim() === "" && confirmId.trim() === "" && id.trim() !== confirmId.trim()){
+            valid = false
+        }
+        if (reason.trim() === ""){
+            valid = false
+        }
+
+        if (!valid){
+            return
+        }
+        setConfirmModal({
+            content : "remover esse usuário",
+            text : "Remover",
+            color1 : "--green",
+            color2 : "--red",
+
+            onConfirm : async() => {
+                setConfirmModal(null)
+
+                const response = await fetch(`http://127.0.0.1:5000/users/${id}`, {
+                    method : "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body : JSON.stringify({
+                        id : id
+                    })
+                })
+                const data = await response.json()
+
+                if (response.ok){
+                    setAlertOverlay({
+                        text : "Usuário removido com sucesso",
+                        color : "--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                }
+                else {
+                    if (data.mensagem === "Usuário inexistente"){
+                        setAlertOverlay({
+                        text : "Usuário não existe",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    }
+                    else {
+                        setAlertOverlay({
+                        text : "Erro ao remover usuário",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    }
+                }
+            }
+        })
+    }
     return(
         <section>
             {alertOverlay && (
@@ -171,18 +250,24 @@ function CadastroUser(){
                     <span className={styles.cardTittle}>Remover Usuários</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID usuário</span>
-                            <input type="text" placeholder="Digite o ID do usuário" />
+                            <input type="text" placeholder="Digite o ID do usuário" value={id} onChange={(e) => {setId(e.target.value);}} />
                             <span className={styles.inputRequest}>Confirme o ID do usuário</span>
-                            <input type="text" placeholder="Confirme o ID do usuário" />
+                            <input type="text" placeholder="Confirme o ID do usuário" value={confirmId} onChange={(e) => {setConfirmID(e.target.value)}} />
                             <span className={styles.inputRequest}>Motivo da remoção</span>
-                            <input type="text"  placeholder="Informe o motivo da remoção do usuário"/>
+                            <input type="text"  placeholder="Informe o motivo da remoção do usuário" value={reason} onChange={(e) => {setReason(e.target.value)}}/>
                     </div>
                         <Button 
                             text={"Remover"}
                             color={"--red"}
-                        
+                            onClick={onRemoveUser}
                         />
-
+                        {confirmModal && <ConfirmartionModal onClose={()=>setConfirmModal(null)} 
+                                onConfirm={confirmModal.onConfirm}
+                                content={confirmModal.content} 
+                                color1={confirmModal.color1} 
+                                color2={confirmModal.color2}   
+                                text={confirmModal.text}   
+                        />}
                 </div>
             </div>
         </section>

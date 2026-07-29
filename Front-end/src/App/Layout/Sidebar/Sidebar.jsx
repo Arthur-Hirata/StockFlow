@@ -14,7 +14,7 @@ function Sidebar(){
          </div>
          <div className={styles.containerRoutes}>
                <div className={styles.route}>
-                  <span className={styles.routeName} onClick={()=> navigate('/')}>Home</span>
+                  <span className={styles.routeName} onClick={()=> navigate('/')}>Dashboard</span>
                </div>
                  <div className={styles.route}>
                   <span className={styles.routeName} onClick={()=> navigate('/Products')}>Produtos</span>
