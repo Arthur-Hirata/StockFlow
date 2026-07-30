@@ -50,7 +50,7 @@ def pegarProdutos():
         low_amount_products=[]
 
         for product in products_list:
-            if product['quantiadade'] < product['quantidade_minima']:
+            if product['quantidade'] < product['quantidade_minima']:
                 low_amount_products.append(product)
 
         

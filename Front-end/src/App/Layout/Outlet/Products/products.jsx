@@ -1,5 +1,6 @@
 import styles from "./products.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
+import SubTittle from "../../../../Components/SubTittle/SubTittle"
 import { useState } from "react"
 import { useEffect } from "react"
 function Products(){
@@ -30,6 +31,10 @@ function Products(){
         <section>
             <SectionTittle text={"Produtos"} />
             <div className={styles.sectionProducts}>
+                <SubTittle 
+                    text = {"Produtos em baixa quantidade"}
+                    color ={"--red"}
+                    />
                 <div className={styles.gridLowAmountProducts}>
                     {lowAmountProducts.map((product)=>(
                         <div key={product.id} className={styles.Produto}>
@@ -42,11 +47,17 @@ function Products(){
                         </div>
                     ))}
                 </div>
+                <SubTittle 
+                    text={"Produtos totais"}
+                    color={"--text"}
+                
+                />
                 <div className={styles.gridProducts}>
                     {products.map((product)=>(
                         <div key={product.id} className={styles.Produto}>
+                            <span className={styles.idProduto}>{product.id}</span>
                             <img src={product.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
-                            <span className={styles.nomeProduto}>{product.name}</span>
+                            <span className={styles.nomeProduto}>{product.nome}</span>
                             <div className={styles.divQuantidade}>
                                 <span className={styles.quantidade}>{product.quantidade}</span>
                             </div>
