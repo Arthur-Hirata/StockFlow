@@ -3,7 +3,7 @@ from flask_cors import CORS
 from routes.auth import auth_bp
 from routes.Cadastro import cadastro_bp
 from routes.Logs import *
-from routes.Products import *
+from routes.Products import products_bp
 from routes.users import *
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ CORS(app,
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(cadastro_bp)
-
+app.register_blueprint(products_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
