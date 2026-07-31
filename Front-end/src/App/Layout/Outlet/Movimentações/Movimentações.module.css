@@ -1,9 +1,75 @@
-.containerCadastro{
+.containerMovimentaçoes{
     background-color: var(--background);
-    width: 83vw;
+    width: 84vw;
     min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     padding: 24px 0 40px;
+}
+.optionContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 30px 0;
+    width: 1000px;
+    margin-left: 120px;
+}
+.optionCard{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 140px;
+    padding: 28px 24px;
+    background: var(--cards-bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .25s ease;
+    box-shadow: var(--shadow);
+}
+.optionCard:hover{
+    border-color: var(--main-blue);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(29, 78, 216, .15);
+}
+.selected{
+    background: var(--main-blue);
+    border-color: var(--secundary-text);
+}
+.selected .optionIcon,
+.selected .optionTitle,
+.selected .optionDescription{
+    color: white;
+}
+.optionIcon{
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(66,108,199,.12);
+    color: var(--main-blue);
+    font-size: 30px;
+    transition: .25s;
+}
+.selected .optionIcon{
+    background: rgba(255,255,255,.15);
+    color: white;
+}
+.optionTitle{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+.optionDescription{
+    text-align: center;
+    color: var(--secundary-text);
+    font-size: 14px;
+    line-height: 1.5;
 }

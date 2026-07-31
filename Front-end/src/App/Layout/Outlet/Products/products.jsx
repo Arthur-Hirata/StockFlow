@@ -6,7 +6,7 @@ import { useEffect } from "react"
 function Products(){
     const [products, setProducts] = useState([])
     const [lowAmountProducts, setlowAmountProducts] = useState([])
-
+    const [lowAmountQuantity, setLowAmountQuantity] = useState("")
     useEffect(()=>{
         
         async function loadProducts (){
@@ -23,10 +23,11 @@ function Products(){
             if (response.ok){
                 setProducts(data.products_list)
                 setlowAmountProducts(data.low_amount_products)
+                setLowAmountQuantity(data.low_amount_products.length)
             }
         }
-    loadProducts()
-},[]);
+        loadProducts()
+    },[]);
     return (
         <section>
             <SectionTittle text={"Produtos"} />
@@ -34,7 +35,7 @@ function Products(){
             {lowAmountProducts.length > 0 &&(
                 <>
                     <SubTittle 
-                        text = {"Produtos em baixa quantidade"}
+                        text = {`Produtos em baixa quantidade (${lowAmountQuantity})`}
                         color ={"--red"}
                         />
                 <div className={styles.gridLowAmountProducts}>
