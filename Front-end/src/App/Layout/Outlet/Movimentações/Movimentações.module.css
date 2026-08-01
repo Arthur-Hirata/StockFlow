@@ -1,20 +1,30 @@
+
 .containerMovimentaçoes{
     background-color: var(--background);
-    width: 84vw;
+    width: 83vw;
     min-height: calc(100vh - 80px);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 24px 0 40px;
+    padding: 24px 24px 40px;
+    box-sizing: border-box;
+}
+.containerCadastro{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .optionContainer{
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 24px;
-    margin: 30px 0;
-    width: 1000px;
-    margin-left: 120px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 0 24px;
+    box-sizing: border-box;
 }
 .optionCard{
     flex: 1;
@@ -72,4 +82,32 @@
     color: var(--secundary-text);
     font-size: 14px;
     line-height: 1.5;
+}
+.containerCard{
+    display: flex;
+  
+    align-content: center;  
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 680px;
+    border-radius: 12px;
+    background: var(--cards);
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+}
+.cardTittle{
+    
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.movOptions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.movButton{
+    font-weight: 700;
 }

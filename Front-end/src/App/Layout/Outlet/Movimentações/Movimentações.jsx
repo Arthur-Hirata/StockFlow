@@ -1,43 +1,80 @@
 import styles from "./Movimentações.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
 import { useState } from "react"
+import { useEffect } from "react"
+import Entradas from "./Entradas/Entradas"
+import Saidas from "./Saidas/Saidas"
 function Movimentações(){
-    const [selected, setSelected] = useState("entrada")
+    const [selected, setSelected] = useState("movimentacao")
+    const [movSelected, setMovSelected] = useState("entrada")
+    const [products, setProducts] = useState([])
+    useEffect(()=>{
+        
+        async function loadProducts (){
+            const userToken = localStorage.getItem("token")
+            const response = await fetch("http://127.0.0.1:5000/getProducts", {
+                method : 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                },
+            })
+            const data = await response.json()
 
-
+            if (response.ok){
+                setProducts(data.products_list)
+            }
+        }
+        loadProducts()
+    },[movSelected]);
 
     return(
-         <section >
+        <>
             <SectionTittle text={"Movimentações"} />
+         <section className={styles.containerMovimentaçoes}>
             <div className={styles.containerCadastro}>
                 <div className={styles.optionContainer}>
                     <div
                         className={`${styles.optionCard} ${
-                         selected === "entrada" ? styles.selected : ""
+                            selected === "movimentacao" ? styles.selected : ""
                         }`}
-                        onClick={() => setSelected("entrada")}
-                        >
+                        onClick={() => setSelected("movimentacao")}
+                    >
                         <span className={styles.optionIcon}>📦</span>
-                        <span className={styles.optionTitle}>Entrada de Produtos</span>
+                        <span className={styles.optionTitle}>Movimentação de Produtos</span>
                     </div>
 
-                <div
-                    className={`${styles.optionCard} ${
-                    selected === "venda" ? styles.selected : ""
-                    }`}
-                    onClick={() => setSelected("venda")}
+                    <div
+                        className={`${styles.optionCard} ${
+                            selected === "venda" ? styles.selected : ""
+                        }`}
+                        onClick={() => setSelected("venda")}
                     >
-                    <span className={styles.optionIcon}>🛒</span>
-                    <span className={styles.optionTitle}>Registrar Venda</span>
+                        <span className={styles.optionIcon}>🛒</span>
+                        <span className={styles.optionTitle}>Registrar Venda</span>
+                    </div>
                 </div>
-                </div>
-                {selected === "entrada" &&(
-                    <>
-                        <span>aojushdaobsd</span>
+                {selected === "movimentacao" && <div className={styles.containerCard}>
+                    <span className={styles.cardTittle}>Movimentação</span>
+                    <div className={styles.movOptions}>
+                        <button className={`${styles.movButton} ${ movSelected === "entrada" ? styles.selected : ""}`} onClick={() => setMovSelected("entrada")}>Entrada</button>
+                        <button className={`${styles.movButton} ${ movSelected === "saida" ? styles.selected : ""}`} onClick={() => setMovSelected("saida")}>Saída</button>
+                    </div>
+                    {movSelected === "entrada" && (
+                        <Entradas products={products}/>
+                        
+                    )}
+                    {movSelected === "saida" &&(
+                        <Saidas  products={products} />
+                    )}
+                    </div>}
+                {selected === "venda"&& <div className={styles.containerCard}>
+                    <span className={styles.cardTittle}>Venda</span>
                     
-                    </>
-                )}
-                {}
+                    
+                    
+                    
+                    </div>}
 
 
 
@@ -46,6 +83,7 @@ function Movimentações(){
 
             </div>
         </section>
+        </>
     )
 }
 export default Movimentações
