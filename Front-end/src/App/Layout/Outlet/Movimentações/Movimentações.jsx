@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import Entradas from "./Entradas/Entradas"
 import Saidas from "./Saidas/Saidas"
+import Vendas from "./Vendas/Vendas"
 function Movimentações(){
     const [selected, setSelected] = useState("movimentacao")
     const [movSelected, setMovSelected] = useState("entrada")
@@ -77,7 +78,7 @@ function Movimentações(){
                 {selected === "venda"&& <div className={styles.containerCard}>
                     <span className={styles.cardTittle}>Venda</span>
                     
-                    
+                    <Vendas products={avaliableProducts}/>
                     
                     
                     </div>}
