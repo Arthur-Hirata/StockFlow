@@ -61,7 +61,7 @@ def pegarProdutos():
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
-products_bp.route("/getAmountProducts", methods=["GET"])
+@products_bp.route("/getAmountProducts", methods=["GET"])
 def pegarQuantidadeProdutos():
     auth_header = request.headers.get('Authorization')
     if not auth_header:
@@ -77,7 +77,7 @@ def pegarQuantidadeProdutos():
         return jsonify({"mensagem" : "Token inválido"}), 401
     conexao = None
     try:
-        with sqlite3.connect(db_path):
+        with sqlite3.connect(db_path) as conexao:
             cursor= conexao.cursor()
             cursor.execute("SELECT * FROM products WHERE quantidade > 0")
             result = cursor.fetchall()
@@ -91,7 +91,31 @@ def pegarQuantidadeProdutos():
             })
         return jsonify({"mensagem" : "Busca bem sucedida", "AmountProducts" : products_list}),200
     except sqlite3.Error as e:
-        if conexao:
-            conexao.close()
+        print(e)
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+
+@products_bp.route("/addProducts/<int:id>", methods=['PATCH'])
+def adcProdutos(id):
+    dados = request.json
+    quantidade = dados.get("quantity")
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return ({"mensagem" : "Usuário não loggado"}), 401
+    try:
+        token = auth_header.split(" ", 1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        nome = payload['nome']
+        id_user = payload['sub']
+    except jwt.ExpiredSignatureError:
+        return jsonify({"mensagem" : "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"mensagem" : "Token inválido"}), 401
+    conexao = None
+    try:
+        with sqlite3.connect(db_path) as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("UPDATE products SET quantidade = quantidade + ? WHERE id =? ", (quantidade, id))
+        return jsonify({"mensagem" : "Alteração bem sucedida "}),200
+    except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500

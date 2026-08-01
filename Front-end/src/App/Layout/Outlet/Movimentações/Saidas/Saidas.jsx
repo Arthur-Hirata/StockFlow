@@ -57,7 +57,7 @@ function Saidas({products}){
         if (!valid){
             return
         }
-        
+        setConfirmModal()
         
 
 
