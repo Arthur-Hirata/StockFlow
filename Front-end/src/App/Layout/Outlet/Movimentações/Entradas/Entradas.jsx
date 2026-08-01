@@ -51,6 +51,7 @@ function Entradas({products}){
             color2 : "--red",
 
             onConfirm : async () =>{
+                setConfirmModal(null)
                 const response = await fetch(`http://127.0.0.1:5000/addProducts/${selectedProduct}`, {
                     method : "PATCH",
                     headers: {

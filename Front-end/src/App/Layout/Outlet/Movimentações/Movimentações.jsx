@@ -8,6 +8,7 @@ function Movimentações(){
     const [selected, setSelected] = useState("movimentacao")
     const [movSelected, setMovSelected] = useState("entrada")
     const [products, setProducts] = useState([])
+    const [avaliableProducts, setAvaliableProducts] = useState([])
     useEffect(()=>{
         
         async function loadProducts (){
@@ -23,6 +24,11 @@ function Movimentações(){
 
             if (response.ok){
                 setProducts(data.products_list)
+                const avaliableProducts = data.products_list.filter(
+                    (product) => product.quantidade > 0
+
+                )
+                setAvaliableProducts(avaliableProducts)
             }
         }
         loadProducts()
@@ -65,7 +71,7 @@ function Movimentações(){
                         
                     )}
                     {movSelected === "saida" &&(
-                        <Saidas  products={products} />
+                        <Saidas  products={avaliableProducts} />
                     )}
                     </div>}
                 {selected === "venda"&& <div className={styles.containerCard}>

@@ -63,39 +63,6 @@ def pegarProdutos():
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
-@products_bp.route("/getAmountProducts", methods=["GET"])
-def pegarQuantidadeProdutos():
-    auth_header = request.headers.get('Authorization')
-    if not auth_header:
-        return ({"mensagem" : "Usuário não loggado"}), 401
-    try:
-        token = auth_header.split(" ", 1)[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        nome = payload['nome']
-        id_user = payload['sub']
-    except jwt.ExpiredSignatureError:
-        return jsonify({"mensagem" : "Token expirado"}), 401
-    except jwt.InvalidTokenError:
-        return jsonify({"mensagem" : "Token inválido"}), 401
-    conexao = None
-    try:
-        with sqlite3.connect(db_path) as conexao:
-            cursor= conexao.cursor()
-            cursor.execute("SELECT * FROM products WHERE quantidade > 0")
-            result = cursor.fetchall()
-            
-        products_list = []
-        for product in result:
-            products_list.append({
-                'id' : product[0],
-                'nome' : product[1],
-                'quantidade' : product[3]
-            })
-        return jsonify({"mensagem" : "Busca bem sucedida", "AmountProducts" : products_list}),200
-    except sqlite3.Error as e:
-        print(e)
-        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
-
 @products_bp.route("/addProducts/<int:id>", methods=['PATCH'])
 def adcProdutos(id):
     dados = request.json
@@ -119,6 +86,37 @@ def adcProdutos(id):
             cursor.execute("UPDATE products SET amount = amount + ? WHERE id =? ", (quantidade, id))
 
         logSucesso = LogMovimentacoes(nome, id_user, id, quantidade)
+        if not logSucesso:
+            return jsonify({"mensagem" : "Log não adicionado"}), 201
+        return jsonify({"mensagem" : "Alteração bem sucedida "}),200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+@products_bp.route('/decreaseProducts/<int:id>', methods=['PATCH'])
+def dimProdutos(id):
+    dados = request.json
+    quantidade = dados.get("quantity")
+    reason = dados.get("reason")
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return ({"mensagem" : "Usuário não loggado"}), 401
+    try:
+        token = auth_header.split(" ", 1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        nome = payload['nome']
+        id_user = payload['sub']
+    except jwt.ExpiredSignatureError:
+        return jsonify({"mensagem" : "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"mensagem" : "Token inválido"}), 401
+    conexao = None
+    try:
+        with sqlite3.connect(db_path) as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("UPDATE products SET amount = amount - ? WHERE id =? AND amount >= ?", (quantidade, id, 0))
+            if cursor.rowcount == 0:
+                return jsonify({"mensagem" : "quantidade insuficiente"}), 400
+        logSucesso = LogMovimentacoes(nome, id_user, id, quantidade, reason)
         if not logSucesso:
             return jsonify({"mensagem" : "Log não adicionado"}), 201
         return jsonify({"mensagem" : "Alteração bem sucedida "}),200

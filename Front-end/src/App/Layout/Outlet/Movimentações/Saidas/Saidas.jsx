@@ -7,6 +7,7 @@ import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 
 
 function Saidas({products}){
+    const userToken = localStorage.getItem("token")
     const [alertOverlay, setAlertOverlay] = useState(null)
     const [confirmModal, setConfirmModal] = useState(null)
     const [selectedProduct, setSelectedProduct] = useState("")
@@ -25,7 +26,9 @@ function Saidas({products}){
         setQuantityError("")
         setConfirmQuantityError("")
         setReasonError("")
-
+        const product = products.find(
+            (p) => p.id === Number(selectedProduct)
+        )
         if (selectedProduct === "" || selectedProduct === "none"){
             valid = false
             setFieldError("Selecione um produto")
@@ -54,10 +57,69 @@ function Saidas({products}){
             valid = false
             setReasonError("Informe um motivo para a remoção")
         }
+        if (product && Number(quantity) > product.quantidade){
+            valid = false
+            setQuantity(`Quantidade disponível ${product.quantidade}`)
+        }
         if (!valid){
             return
         }
-        setConfirmModal()
+        setConfirmModal({
+            content : "remover essa quantidade de produto",
+            text : "Remover",
+            color1 : "--green",
+            color2 : "--red",
+
+            onConfirm : async () =>{
+                setConfirmModal(null)
+                const response = await fetch(`http://127.0.0.1:5000/decreaseProducts/${selectedProduct}`, {
+                    method : 'PATCH',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body: JSON.stringify({
+                        quantity : quantity,
+                        reason : reason
+                    })
+                })
+                setSelectedProduct("")
+                setQuantity("")
+                setConfirmQuantity("")
+                setReason("")
+                const data = await response.json()
+                if (response.ok){
+                    setAlertOverlay({
+                        text : "Quantidade removida com sucesso",
+                        color : "--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                }
+                else{
+                    if (data.mensagem === "quantidade insuficiente"){
+                        setAlertOverlay({
+                        text : "Quantidade insuficiente do produto",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                    }
+                    else{
+                        setAlertOverlay({
+                            text : "Erro ao remover quantidade",
+                            color : "--red"
+                        })
+                        setTimeout(() => {
+                            setAlertOverlay(null);
+                        }, 3000);
+                    }
+                }
+            }
+
+        })
         
 
 
