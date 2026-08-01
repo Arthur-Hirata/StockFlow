@@ -48,3 +48,21 @@ def LogUsers(user_name, id_user, add_name,add_id , role, reason =None):
         print(e)
         return False
 
+def LogMovimentacoes(user_name, id_user, id_produto, quantidade, reason=None):
+    db_path = os.getenv("DATABASE_PATH")
+    if not db_path:
+        return False
+    try:
+        conexao = sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        if not reason:
+            action = f"O usuário {user_name} (ID{id_user}) adicionou {quantidade} ao produto {id_produto}"
+        if reason:
+            action = f"O usuário {user_name} (ID{id_user}) remover {quantidade} do produto {id_produto},devido {reason}"
+        cursor.execute("INSERT INTO logs (user_id, action) VALUES(?,?)",(id_user,action))
+        conexao.commit()
+        conexao.close()
+        return True
+    except sqlite3.Error as e :
+        print(e)
+        return False

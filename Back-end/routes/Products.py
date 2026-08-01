@@ -14,6 +14,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 db_path = os.getenv("DATABASE_PATH")
 
+from routes.Logs import LogMovimentacoes
+
 @products_bp.route('/getProducts', methods=['GET'])
 def pegarProdutos():
     auth_header = request.headers.get('Authorization')
@@ -114,7 +116,11 @@ def adcProdutos(id):
     try:
         with sqlite3.connect(db_path) as conexao:
             cursor = conexao.cursor()
-            cursor.execute("UPDATE products SET quantidade = quantidade + ? WHERE id =? ", (quantidade, id))
+            cursor.execute("UPDATE products SET amount = amount + ? WHERE id =? ", (quantidade, id))
+
+        logSucesso = LogMovimentacoes(nome, id_user, id, quantidade)
+        if not logSucesso:
+            return jsonify({"mensagem" : "Log não adicionado"}), 201
         return jsonify({"mensagem" : "Alteração bem sucedida "}),200
     except sqlite3.Error as e:
         print(e)
