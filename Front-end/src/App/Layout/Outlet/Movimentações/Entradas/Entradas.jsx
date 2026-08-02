@@ -101,9 +101,9 @@ function Entradas({products}){
         </select>
         {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
         <span className={styles.inputRequest}>Digite a quantidade do produto</span>
-        <input type="number" placeholder="Insira um quantidade" value={quantity} onChange={(e)=> {setQuantity(e.target.value);setQuantityError("")}} className={quantityError ? styles.error : ""} /> {quantityError && <span className={styles.spanErro}>{quantityError}</span>}
+        <input type="number" min={0} placeholder="Insira um quantidade" value={quantity} onChange={(e)=> {setQuantity(e.target.value);setQuantityError("")}} className={quantityError ? styles.error : ""} /> {quantityError && <span className={styles.spanErro}>{quantityError}</span>}
         <span className={styles.inputRequest}>Confirme essa quantidade</span>
-        <input type="number" placeholder="Insira um quantidade" value={confirmQuantity} onChange={(e)=> {setConfirmQuantity(e.target.value);setConfirmQuantityError("")}} className={confirmQuantityError ? styles.error : ""} /> {confirmQuantityError && <span className={styles.spanErro}>{confirmQuantityError}</span>}
+        <input type="number" min={0} placeholder="Insira um quantidade" value={confirmQuantity} onChange={(e)=> {setConfirmQuantity(e.target.value);setConfirmQuantityError("")}} className={confirmQuantityError ? styles.error : ""} /> {confirmQuantityError && <span className={styles.spanErro}>{confirmQuantityError}</span>}
         <Button
             text={"Adicionar"}
             color={"--green"}
