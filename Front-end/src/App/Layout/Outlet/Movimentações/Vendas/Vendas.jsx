@@ -26,6 +26,17 @@ function Vendas({products}){
                     />
                 </div>
                 <hr />
+                <div className={styles.containerLista}>
+
+                </div>
+                <hr />
+                <div className={styles.containerFinal}>
+                    <span className={styles.spanTotal}>Total : R$ </span>
+                    <Button
+                        text={"Confirmar Venda"}
+                        color={"--green"}     
+                    />
+                </div>
         </div>
     )
 }
