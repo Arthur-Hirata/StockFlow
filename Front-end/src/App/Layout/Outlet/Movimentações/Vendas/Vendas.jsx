@@ -27,7 +27,31 @@ function Vendas({products}){
                 </div>
                 <hr />
                 <div className={styles.containerLista}>
-
+                    <div className={styles.itemList}>
+                        <span className={styles.itemPrice} style={{fontWeight: 700}}>Preço</span>
+                        <span className={styles.itemName} style={{fontWeight: 700}}>Item</span>
+                        <span className={styles.itemQuantity}style={{fontWeight: 700}}>Quantidade</span>
+                        <span className={styles.itemQuantity}style={{fontWeight: 700}}>Remover</span>
+                    </div>
+                    <div className={styles.itemList}>
+                        <span className={styles.itemPrice}>R$ 8,99</span>
+                        <span className={styles.itemName}>Pepsi 500ml</span>
+                        <span className={styles.itemQuantity}>2x</span>
+                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
+                    </div>
+                    <div className={styles.itemList}>
+                        <span className={styles.itemPrice}>R$ 8,99</span>
+                        <span className={styles.itemName}>Pepsi 500ml</span>
+                        <span className={styles.itemQuantity}>2x</span>
+                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
+                    </div>
+                    <div className={styles.itemList}>
+                        <span className={styles.itemPrice}>R$ 8,99</span>
+                        <span className={styles.itemName}>Pepsi 500ml</span>
+                        <span className={styles.itemQuantity}>2x</span>
+                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
+                    </div>
+                    
                 </div>
                 <hr />
                 <div className={styles.containerFinal}>
