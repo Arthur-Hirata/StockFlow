@@ -27,17 +27,28 @@ function Vendas({products}){
             p => p.id === Number(selectedProduct)
         )
         if (!product) return
-        setItemList(prev =>[
-            ...prev,
-            {
-                ...product,
-                quantity : Number(quantity)
+        setItemList(prev =>{
+            const existingItem = prev.find(
+                item => item.id === selectedProduct
+            )
+            if (existingItem){
+                return prev.map(item=>{
+                    item.id === selectedProduct
+                        ? {
+                            ...item,
+                            quantity : item.quantity + quantity
+                        }
+                        : item
+                })
             }
-        ])
-        
+            return [
+                ...prev,{
+                    ...product,
+                    quantity: quantity
+                }
+            ]
+        })
     }   
-
-
     return(
         <div className={styles.userAction}>
                 <span className={styles.inputRequest}>Produto</span>
@@ -65,9 +76,9 @@ function Vendas({products}){
                     </div>
                     {itemList.map((item)=>(
                          <div key={item.id} className={styles.itemList}>
-                            <span className={styles.itemPrice}>R$ {item.preco}</span>
+                            <span className={styles.itemPrice}>{item.preco}</span>
                             <span className={styles.itemName} >{item.nome}</span>
-                            <span className={styles.itemQuantity} >{item.quantidade}</span>
+                            <span className={styles.itemQuantity} >{item.quantity}</span>
                              <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
                         </div>
                     )  
