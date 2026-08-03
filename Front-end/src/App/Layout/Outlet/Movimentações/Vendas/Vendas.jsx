@@ -2,11 +2,41 @@ import styles from "./Vendas.module.css"
 import { useState } from "react";
 import Button from "../../../../../Components/Button/button";
 function Vendas({products}){
-    const [selectedProduct, setSelectedProduct] = useState("")
-
+    let [itemList, setItemList] = useState([])
+    const [selectedProduct, setSelectedProduct] = useState("none")
+    const [quantity, setQuantity] = useState("")
     function onAdicionar(){
-        console.log(selectedProduct)
-    }
+        let valid = true
+        if (selectedProduct == "none"){
+            valid = false
+            alert("saeleciona")
+        }
+        if (quantity == 0){
+            valid =false
+            alert("bota numero")
+        }
+        if (quantity.trim() === ""){
+            valid = false
+        }
+        if (!valid){
+            return
+        }
+        setSelectedProduct("none")
+        setQuantity("")
+        const product = products.find(
+            p => p.id === Number(selectedProduct)
+        )
+        if (!product) return
+        setItemList(prev =>[
+            ...prev,
+            {
+                ...product,
+                quantity : Number(quantity)
+            }
+        ])
+        
+    }   
+
 
     return(
         <div className={styles.userAction}>
@@ -18,7 +48,7 @@ function Vendas({products}){
                 </select>
                 <span className={styles.inputRequest}>Quantidade</span>
                 <div className={styles.containerQuantidade}>
-                    <input type="number" placeholder="Digite a Quantidade" min={0}/>
+                    <input type="number" placeholder="Digite a Quantidade" min={0} value={quantity} onChange={(e)=> setQuantity(e.target.value)}/>
                     <Button 
                         text={"Adicionar"}
                         color={"--green"}
@@ -33,25 +63,15 @@ function Vendas({products}){
                         <span className={styles.itemQuantity}style={{fontWeight: 700}}>Quantidade</span>
                         <span className={styles.itemQuantity}style={{fontWeight: 700}}>Remover</span>
                     </div>
-                    <div className={styles.itemList}>
-                        <span className={styles.itemPrice}>R$ 8,99</span>
-                        <span className={styles.itemName}>Pepsi 500ml</span>
-                        <span className={styles.itemQuantity}>2x</span>
-                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
-                    </div>
-                    <div className={styles.itemList}>
-                        <span className={styles.itemPrice}>R$ 8,99</span>
-                        <span className={styles.itemName}>Pepsi 500ml</span>
-                        <span className={styles.itemQuantity}>2x</span>
-                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
-                    </div>
-                    <div className={styles.itemList}>
-                        <span className={styles.itemPrice}>R$ 8,99</span>
-                        <span className={styles.itemName}>Pepsi 500ml</span>
-                        <span className={styles.itemQuantity}>2x</span>
-                        <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
-                    </div>
-                    
+                    {itemList.map((item)=>(
+                         <div key={item.id} className={styles.itemList}>
+                            <span className={styles.itemPrice}>R$ {item.preco}</span>
+                            <span className={styles.itemName} >{item.nome}</span>
+                            <span className={styles.itemQuantity} >{item.quantidade}</span>
+                             <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
+                        </div>
+                    )  
+                    )}
                 </div>
                 <hr />
                 <div className={styles.containerFinal}>
