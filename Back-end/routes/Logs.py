@@ -66,3 +66,19 @@ def LogMovimentacoes(user_name, id_user, id_produto, quantidade, reason=None):
     except sqlite3.Error as e :
         print(e)
         return False
+
+def LogVendas(user_name, id_user, id_venda):
+    db_path = os.getenv("DATABASE_PATH")
+    if not db_path:
+        return False
+    try:
+        conexao= sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        action = f"O usuário {user_name} (ID{id_user} cadastrou a venda de ID {id_venda})"
+        cursor.execute("INSERT INTO logs (user_id, action) VALUES(?,?)", (id_user, action))
+        conexao.commit()
+        conexao.close()
+        return True
+    except sqlite3.Error as e:
+        print(e)
+        return False

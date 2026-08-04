@@ -76,7 +76,7 @@ function Vendas({products}){
                 color : "--red"
             })
             setTimeout(() => {
-                        setAlertOverlay(null);
+                setAlertOverlay(null);
             }, 3000);
             return
         }
@@ -85,12 +85,41 @@ function Vendas({products}){
             text : "Cadastrar",
             color1: "--green",
             color2: "--red",
-
+            
             onConfirm : async () =>{
+                const userToken = localStorage.getItem("token")
+                const response = await fetch("http://127.0.0.1:5000/sale", {
+                    method : 'POST',
+                     headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body: JSON.stringify({
+                        sale_list : itemList
+                    })
+                })
+                setItemList([])
+                setConfirmModal(null)
+                if (response.ok){
+                    setAlertOverlay({
+                        text : "Venda cadastrada com sucesso!",
+                        color : "--green"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                }
+                else{
+                    setAlertOverlay({
+                        text : "Erro ao cadastrar venda!",
+                        color : "--red"
+                    })
+                    setTimeout(() => {
+                        setAlertOverlay(null);
+                    }, 3000);
+                }
                 
             }
-            
-
         })
     }
     return(
