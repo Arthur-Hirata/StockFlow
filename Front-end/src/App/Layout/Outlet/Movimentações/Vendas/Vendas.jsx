@@ -1,12 +1,22 @@
 import styles from "./Vendas.module.css"
 import { useState } from "react";
 import Button from "../../../../../Components/Button/button";
+import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
+import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 function Vendas({products}){
+    const [alertOverlay, setAlertOverlay] = useState(null)
+    const [confirmModal, setConfirmModal] = useState(null)
+
+
     let [itemList, setItemList] = useState([])
     const [selectedProduct, setSelectedProduct] = useState("none")
     const [quantity, setQuantity] = useState("")
     const [fieldError, setFieldError] = useState("")
     const [quantityError, setQuantityError] = useState("")
+    const precoFinal = itemList.reduce((total, item) =>{
+            return total + item.preco * item.quantity
+        }, 0)
+
     function onAdicionar(){
         let valid = true
         if (selectedProduct == "none"){
@@ -52,10 +62,45 @@ function Vendas({products}){
                     quantity: Number(quantity)
                 }
             ]
+
         })
-    }   
+    }
+    function onRemover(id){
+        setItemList(prev => prev.filter(item => Number(item.id) !== Number(id)))
+    }
+
+    function onVender(){
+        if (precoFinal == 0){
+            setAlertOverlay({
+                text : "Erro, Não há itens informados",
+                color : "--red"
+            })
+            setTimeout(() => {
+                        setAlertOverlay(null);
+            }, 3000);
+            return
+        }
+        setConfirmModal({
+            content : "cadastrar essa venda",
+            text : "Cadastrar",
+            color1: "--green",
+            color2: "--red",
+
+            onConfirm : async () =>{
+                
+            }
+            
+
+        })
+    }
     return(
         <div className={styles.userAction}>
+            {alertOverlay && (
+            <AlertOverlay 
+                text={alertOverlay.text}
+                color={alertOverlay.color}
+                 />
+                )}  
                 <span className={styles.inputRequest}>Produto</span>
                 <select name="" value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className={fieldError ? styles.error : ""}> {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
                     <option value="none">Selecione um produto</option>
@@ -82,21 +127,29 @@ function Vendas({products}){
                     </div>
                     {itemList.map((item)=>(
                          <div key={item.id} className={styles.itemList}>
-                            <span className={styles.itemPrice}>{item.preco}</span>
+                            <span className={styles.itemPrice}>R${item.preco}</span>
                             <span className={styles.itemName} >{item.nome}</span>
                             <span className={styles.itemQuantity} >{item.quantity}</span>
-                             <button className={styles.removeButton}><i className="fas fa-trash"></i></button>
+                             <button className={styles.removeButton} onClick={() => onRemover(item.id)}><i className="fas fa-trash"></i></button>
                         </div>
                     )  
                     )}
                 </div>
                 <hr />
                 <div className={styles.containerFinal}>
-                    <span className={styles.spanTotal}>Total : R$ </span>
+                    <span className={styles.spanTotal}>Total : R$ {precoFinal.toFixed()} </span>
                     <Button
                         text={"Confirmar Venda"}
-                        color={"--green"}     
+                        color={"--green"} 
+                        onClick={onVender}    
                     />
+                    {confirmModal && <ConfirmartionModal onClose={()=>setConfirmModal(null)} 
+                        onConfirm={confirmModal.onConfirm}
+                        content={confirmModal.content} 
+                        color1={confirmModal.color1} 
+                        color2={confirmModal.color2}   
+                        text={confirmModal.text}   
+                    />}
                 </div>
         </div>
     )
