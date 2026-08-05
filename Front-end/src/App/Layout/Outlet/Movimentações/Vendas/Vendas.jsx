@@ -30,6 +30,26 @@ function Vendas({products}){
         if (quantity.trim() === ""){
             setQuantityError("Insira uma quantidade")
         }
+        const product = products.find(
+            p => p.id === Number(selectedProduct)
+        )
+        if (!product){
+            valid = false
+        }
+        if (Number(quantity) > Number(product.quantidade)){
+            valid = false
+            setQuantityError(`Existem apenas ${product.quantidade} unidades em estoque`)
+        }
+        const itemNalista = itemList.find(
+            item => item.id === Number(selectedProduct)
+        )
+        
+        const quantidadeNaLista = itemNalista ? itemNalista.quantity : 0
+        if (quantidadeNaLista + Number(quantity) > product.quantidade){
+            valid = false
+            setQuantityError(`Existem apenas ${product.quantidade} unidades em estoque e você já adicionou ${quantidadeNaLista} a lista`)
+        }
+
         if (!valid){
             return
         }
@@ -37,9 +57,6 @@ function Vendas({products}){
         setQuantity("")
         setFieldError("")
         setQuantityError("")
-        const product = products.find(
-            p => p.id === Number(selectedProduct)
-        )
         if (!product) return
         setItemList(prev =>{
             const existingItem = prev.find(
@@ -67,6 +84,8 @@ function Vendas({products}){
     }
     function onRemover(id){
         setItemList(prev => prev.filter(item => Number(item.id) !== Number(id)))
+        setQuantityError("")
+        setFieldError("")
     }
 
     function onVender(){
@@ -133,12 +152,12 @@ function Vendas({products}){
                 <span className={styles.inputRequest}>Produto</span>
                 <select name="" value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className={fieldError ? styles.error : ""}> {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
                     <option value="none">Selecione um produto</option>
-                    {products.map((product)=>(
+                    {products.map((product)=>( 
                     <option key={product.id} value={product.id}>{product.nome}</option>))}              
                 </select>
                 <span className={styles.inputRequest}>Quantidade</span>
                 <div className={styles.containerQuantidade}>
-                    <input type="number" placeholder="Digite a Quantidade" min={0} value={quantity} onChange={(e)=> setQuantity(e.target.value)} className={quantityError ? styles.error : ""}/>
+                    <input type="number" placeholder="Digite a Quantidade" min={0} value={quantity} onChange={(e)=> setQuantity(e.target.value) } className={quantityError ? styles.error : ""}/>
                     <Button 
                         text={"Adicionar"}
                         color={"--green"}

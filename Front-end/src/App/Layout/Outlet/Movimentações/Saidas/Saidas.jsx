@@ -59,7 +59,10 @@ function Saidas({products}){
         }
         if (product && Number(quantity) > product.quantidade){
             valid = false
-            setQuantity(`Quantidade disponível ${product.quantidade}`)
+            setQuantity("")
+            setConfirmQuantity("")
+            setQuantityError(`Quantidade disponível ${product.quantidade}`)
+            setConfirmQuantityError(`Quantidade disponível ${product.quantidade}`)
         }
         if (!valid){
             return
