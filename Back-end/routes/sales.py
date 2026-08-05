@@ -56,7 +56,7 @@ def saleRegister():
             cursor.execute("INSERT INTO sale_items (sale_id, product_id, amount, unit_price) VALUES (?,?,?,?)", (id_venda, item['id'], item['quantity'], unit_price))
 
         conexao.commit()
-
+        baixaVendas(sale_list)
         logSucesso = LogVendas(nome, id_user, id_venda)
         if not logSucesso:
             return jsonify({"mensagem" : "Log não registrado"}), 201
@@ -67,7 +67,20 @@ def saleRegister():
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
 
+def baixaVendas(sale_list):
+    conexao = None
+    try:
+        conexao = sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        for item in sale_list:
+            cursor.execute("UPDATE products SET amount = amount - ? WHERE id=?", (item['quantity'], item['id']))
 
+        conexao.commit()
+        conexao.close()
+
+    except sqlite3.Error as e:
+        if conexao:
+            conexao.rollback()
 
 
 
