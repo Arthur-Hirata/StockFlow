@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 db_path = os.getenv("DATABASE_PATH")
 
-@data_bp.route("/getData/<str:selected>", methods=['GET'])
+@data_bp.route("/getData/<string:selected>", methods=['GET'])
 def pegarDados(selected):
     auth_header = request.headers.get('Authorization')
     if not auth_header:
@@ -32,8 +32,28 @@ def pegarDados(selected):
     except jwt.InvalidTokenError:
         return jsonify({"mensagem" : "Token inválido"}), 401
     conexao = None
+    permitidas ={
+        'logs',
+        'products',
+        'users',
+        'sales'
+    }
+    if selected not in permitidas:
+        return jsonify({"mensagem" : "Campo não permitido"}), 400
     try:
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
-        
+        cursor.execute(f"SELECT * FROM ${selected}")
+        columns =[col[0] for col in cursor.description]
+        table =[
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+        conexao.close()
+        return jsonify({"mensagem" : "Busca concluida", "tabela" : table}), 200
+    except sqlite3.Error as e:
+        print(e)
+        if conexao:
+            conexao.commit()
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
