@@ -38,10 +38,22 @@ function Logs(){
             < SectionTittle text={"Logs"} />
             <div className={styles.containerLogs}>
                 <div className={styles.divBtns}>
-                    <button onClick={()=> setSelected("logs")}  className={selected=== "logs" ? styles.selected : ""}>Logs</button>
-                    <button onClick={()=> setSelected("users")} className={selected=== "users" ? styles.selected : ""}>Users</button>
-                    <button onClick={()=> setSelected("produtos")} className={selected=== "produtos" ? styles.selected : ""}>Produtos</button>
-                    <button onClick={()=> setSelected("vendas")} className={selected=== "vendas" ? styles.selected : ""}>Vendas</button>
+                   <div className={`${styles.optionCard} ${selected === "logs" ? styles.selected : ""}`}onClick={() => setSelected("logs")}>
+                        <span className={styles.optionIcon}>📋</span>
+                        <span className={styles.optionTitle}>Logs</span>
+                    </div>
+                    <div className={`${styles.optionCard} ${selected === "users" ? styles.selected : ""}`}onClick={() => setSelected("users")}>
+                        <span className={styles.optionIcon}>👤</span>
+                        <span className={styles.optionTitle}>users</span>
+                    </div>
+                    <div className={`${styles.optionCard} ${selected === "produtos" ? styles.selected : ""}`}onClick={() => setSelected("produtos")}>
+                        <span className={styles.optionIcon}>📦</span>
+                        <span className={styles.optionTitle}>Produtos</span>
+                    </div>
+                    <div className={`${styles.optionCard} ${selected === "vendas" ? styles.selected : ""}`}onClick={() => setSelected("vendas")}>
+                        <span className={styles.optionIcon}>🛒</span>
+                        <span className={styles.optionTitle}>Vendas</span>
+                    </div>
                 </div>
                 <Table 
                     columns={tables[selected].columns}

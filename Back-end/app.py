@@ -4,6 +4,7 @@ from routes.auth import auth_bp
 from routes.Cadastro import cadastro_bp
 from routes.Products import products_bp
 from routes.sales import sales_bp
+from routes.Data import data_bp
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(cadastro_bp)
 app.register_blueprint(products_bp)
 app.register_blueprint(sales_bp)
+app.register_blueprint(data_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
