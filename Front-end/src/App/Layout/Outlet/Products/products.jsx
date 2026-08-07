@@ -44,6 +44,7 @@ function Products(){
                             <span className={styles.idProduto}>ID: {product.id}</span>
                             <img src={product.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
                             <span className={styles.nomeProduto}>{product.nome}</span>
+                            <span className={styles.precoProduto}>R${product.preco}</span>
                             <div className={styles.divQuantidade}>
                                 <span className={styles.quantidade}>{product.quantidade}</span>
                             </div>
@@ -64,6 +65,7 @@ function Products(){
                             <span className={styles.idProduto}>ID: {product.id}</span>
                             <img src={product.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
                             <span className={styles.nomeProduto}>{product.nome}</span>
+                            <span className={styles.precoProduto}>R${product.preco}</span>
                             <div className={styles.divQuantidade}>
                                 <span className={styles.quantidade}>{product.quantidade}</span>
                             </div>

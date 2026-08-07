@@ -60,3 +60,29 @@ def pegarDados(selected):
             conexao.close()
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
+@data_bp.route('/getDashboard', methods=['GET'])
+def pegarDashboard():
+    conexao = None
+    try:
+        conexao =sqlite3.connect(db_path)
+        cursor = conexao.cursor()
+        cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now')")
+        daily_sales = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
+        month_sales = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COALESCE(SUM(total_price), 0) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
+        month_revenue = cursor.fetchone()[0]
+
+        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue}), 200
+
+
+
+
+
+
+
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500

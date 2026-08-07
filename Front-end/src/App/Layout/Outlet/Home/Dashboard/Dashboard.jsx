@@ -1,6 +1,28 @@
 import styles from "./Dashboard.module.css"
-
+import { useState } from "react"
+import { useEffect } from "react"
 function Dashboard(){
+    const [daySales, setDaySales] = useState("")
+    const [monthSales, setMonthSales] = useState("")
+    const [monthRevenue, setMonthRevenue] = useState("")
+    useEffect(()=>{
+        async function getDashboard(){
+            const response = await fetch("http://127.0.0.1:5000/getDashboard", {
+                method : "GET",
+                headers: {"Content-Type": "application/json"}
+            })
+            const data = await response.json()
+            if (response.ok){
+                setDaySales(data.daily_sales)
+                setMonthSales(data.month_sales)
+                setMonthRevenue(data.month_revenue)
+            }
+        }
+
+        getDashboard()
+    }, [])
+    
+
     return(
         <section>
             <div className={styles.containerDashboard}>
@@ -10,7 +32,7 @@ function Dashboard(){
                             <span className={styles.cardTittle}>Vendas dia</span>
                             <i className={`${styles.icon} fa-solid fa-arrow-trend-up`}></i>
                         </div>
-                        <span className={styles.cardValue}>30</span>
+                        <span className={styles.cardValue}>{daySales}</span>
                         <div className={styles.dataRow}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
                             <span>Mais que no dia anterior</span>
@@ -22,7 +44,7 @@ function Dashboard(){
                             <i className={`${styles.icon} fa-solid fa-arrow-trend-up`}></i>
                             
                         </div>
-                        <span className={styles.cardValue}>1303</span>
+                        <span className={styles.cardValue}>{monthSales}</span>
                         <div className={styles.dataRow}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
                             <span>Mais que no mês anterior</span>
@@ -34,7 +56,7 @@ function Dashboard(){
                             <span className={styles.cardTittle}>Faturamento mês</span>
                             <i className={`${styles.icon} fa-solid fa-file-invoice-dollar`}></i>
                         </div>
-                        <span className={styles.cardValue}> 1.200.000</span>
+                        <span className={styles.cardValue}>R${monthRevenue}</span>
                         <div className={styles.dataRow}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
                             <span>Mais que no mês anterior</span>
