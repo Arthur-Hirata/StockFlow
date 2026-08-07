@@ -9,7 +9,7 @@ function Cadastros(){
     return(
         <section>
             
-            <SectionTittle text={"Cadastros"} />
+            <SectionTittle text={"Cadastros"}/>
             <div className={styles.containerCadastro}>
                 <div className={styles.userAction}>
                     <CadastroProd/>

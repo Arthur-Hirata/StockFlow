@@ -36,9 +36,9 @@ function Movimentações(){
     },[movSelected]);
 
     return(
-        <>
+    <section>
             <SectionTittle text={"Movimentações"} />
-         <section className={styles.containerMovimentaçoes}>
+         <div className={styles.containerMovimentaçoes}>
             <div className={styles.containerCadastro}>
                 <div className={styles.optionContainer}>
                     <div
@@ -89,8 +89,8 @@ function Movimentações(){
 
 
             </div>
-        </section>
-        </>
+        </div>
+    </section>
     )
 }
 export default Movimentações
