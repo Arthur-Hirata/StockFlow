@@ -109,7 +109,7 @@ function Vendas({products}){
                 const userToken = localStorage.getItem("token")
                 const response = await fetch("http://127.0.0.1:5000/sale", {
                     method : 'POST',
-                     headers: {
+                    headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${userToken}`,
                     },

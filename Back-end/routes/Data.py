@@ -43,7 +43,10 @@ def pegarDados(selected):
     try:
         conexao = sqlite3.connect(db_path)
         cursor = conexao.cursor()
-        cursor.execute(f"SELECT * FROM ${selected}")
+        if selected == "users":
+            cursor.execute("SELECT id, nome, email, role, created_at FROM users ")
+        else:
+            cursor.execute(f"SELECT * FROM {selected}")
         columns =[col[0] for col in cursor.description]
         table =[
             dict(zip(columns, row))
@@ -54,6 +57,6 @@ def pegarDados(selected):
     except sqlite3.Error as e:
         print(e)
         if conexao:
-            conexao.commit()
+            conexao.close()
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
