@@ -75,7 +75,25 @@ def pegarDashboard():
         cursor.execute("SELECT COALESCE(SUM(total_price), 0) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_revenue = cursor.fetchone()[0]
 
-        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue}), 200
+        cursor.execute('''
+        SELECT
+            p.id,
+            p.name,
+            SUM(si.amount) as total_vendido
+        FROM sale_items si
+        JOIN products p ON p.id = si.product_id
+        GROUP BY p.id, p.name
+        ORDER BY total_vendido DESC
+        LIMIT 5            
+            ''')
+        rows = cursor.fetchall()
+        top_products =[
+            {"nome" : row[1], "quantidade" : row[2]}
+            for row in rows
+        ]
+        
+
+        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue, 'top_products' : top_products, 'top_users' : top_users}), 200
 
 
 

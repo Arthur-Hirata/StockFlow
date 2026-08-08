@@ -1,10 +1,15 @@
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
 import { useEffect } from "react"
+import { PieChart, Pie, Tooltip, Legend } from "recharts";
+
 function Dashboard(){
     const [daySales, setDaySales] = useState("")
     const [monthSales, setMonthSales] = useState("")
     const [monthRevenue, setMonthRevenue] = useState("")
+    const [topProducts, setTopProducts] = useState([])
+    
+
     useEffect(()=>{
         async function getDashboard(){
             const response = await fetch("http://127.0.0.1:5000/getDashboard", {
@@ -16,6 +21,7 @@ function Dashboard(){
                 setDaySales(data.daily_sales)
                 setMonthSales(data.month_sales)
                 setMonthRevenue(data.month_revenue)
+                setTopProducts(data.top_products)
             }
         }
 
@@ -67,6 +73,15 @@ function Dashboard(){
                 <div className={styles.containerRowGraph}>
                     <div className={styles.graph}>
                         <span className={styles.graphTittle}>Gráfico de Vendas</span>
+                        <PieChart width={800} height={300}>
+                            <Pie
+                            data={topProducts}
+                            dataKey="quantidade"
+                            nameKey="nome"
+                            />
+                            <Tooltip />
+                        <Legend />
+                        </PieChart>
                     </div>
                     <div className={styles.menu}>
                         <span className={styles.menuTittle}>Mais vendas</span>
