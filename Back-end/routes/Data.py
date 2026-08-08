@@ -91,16 +91,23 @@ def pegarDashboard():
             {"nome" : row[1], "quantidade" : row[2]}
             for row in rows
         ]
-        
-
-        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue, 'top_products' : top_products, 'top_users' : top_users}), 200
-
-
-
-
-
-
-
+        cursor.execute('''
+        SELECT
+            u.id,
+            u.nome,
+            SUM(si.total_price) as total_vendido
+        FROM sales si
+        JOIN users u ON u.id = si.seller_id
+        GROUP BY u.id, u.nome
+        ORDER BY total_vendido DESC
+        LIMIT 5
+''')
+        rows_users = cursor.fetchall()
+        top_users =[
+                    {'id' : row[0], 'nome' : row[1], "valor" : row[2]}
+                    for row in rows_users
+        ]
+        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue, 'top_products' : top_products, 'top_users' : top_users}),200
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500

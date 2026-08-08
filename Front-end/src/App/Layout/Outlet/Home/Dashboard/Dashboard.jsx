@@ -8,7 +8,7 @@ function Dashboard(){
     const [monthSales, setMonthSales] = useState("")
     const [monthRevenue, setMonthRevenue] = useState("")
     const [topProducts, setTopProducts] = useState([])
-    
+    const [topUsers, setTopUsers] = useState([])
 
     useEffect(()=>{
         async function getDashboard(){
@@ -22,6 +22,7 @@ function Dashboard(){
                 setMonthSales(data.month_sales)
                 setMonthRevenue(data.month_revenue)
                 setTopProducts(data.top_products)
+                setTopUsers(data.top_users)
             }
         }
 
@@ -85,6 +86,14 @@ function Dashboard(){
                     </div>
                     <div className={styles.menu}>
                         <span className={styles.menuTittle}>Mais vendas</span>
+                        <div className={styles.topList}>
+                            {topUsers.map((user) => (
+                                <div key={user.id} className={styles.containerUser}>
+                                    <span>{user.nome}</span>
+                                    <span className={styles.spanValor}>R${user.valor}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
