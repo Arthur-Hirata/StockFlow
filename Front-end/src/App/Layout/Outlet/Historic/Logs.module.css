@@ -8,7 +8,7 @@
 
 .containerLogs{
     background-color: var(--background);
-    width: 100%;
+    width: 83vw;
     display: flex;
     justify-content: center;
     align-items: flex-start;
