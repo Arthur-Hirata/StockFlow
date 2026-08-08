@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./App/ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import AdminRoute from "./Components/AdminRoute/AdminRoute";
 import Layout from "./App/Layout/Layout"
 import Home from "./App/Layout/Outlet/Home/Home";
 import Products from "./App/Layout/Outlet/Products/products";
@@ -20,8 +21,10 @@ function App() {
             <Route path="/" element={<Home />}/>
             <Route path="/Products" element={<Products />}/>
             <Route path="/Movimentacoes" element={<Movimentações />}/>
-            <Route path="/Cadastros" element={<Cadastros />}/>
-            <Route path="/Logs" element={<Logs />}/>
+            <Route element={<AdminRoute />}>
+              <Route path="/Cadastros" element={<Cadastros />}/>
+              <Route path="/Logs" element={<Logs />}/>
+            </Route>
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

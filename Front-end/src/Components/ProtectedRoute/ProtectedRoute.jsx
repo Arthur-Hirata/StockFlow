@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
 function ProtectedRoute(){
-   const [authorized, setAuthorized] = useState(() => {
+    const [authorized, setAuthorized] = useState(() => {
     const userToken = localStorage.getItem("token")
     return userToken ? null : false
    })

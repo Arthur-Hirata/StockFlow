@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css"
 
 
-
 function Sidebar(){
    const navigate = useNavigate()
+
 
     return (
        <aside>

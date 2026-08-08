@@ -28,8 +28,6 @@ function Dashboard(){
 
         getDashboard()
     }, [])
-    
-
     return(
         <section>
             <div className={styles.containerDashboard}>
