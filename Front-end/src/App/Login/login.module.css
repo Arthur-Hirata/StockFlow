@@ -93,7 +93,8 @@ input[type='password']:focus {
     color: black;
     border: none;
     margin-top: 7px;
-    margin-left: 280px;
+    margin-left: 375px;
+    width: 20px;
 }
 .erroUser{
     color: var(--red);

@@ -1,8 +1,10 @@
-import { Navigate , Outlet } from "react-router-dom"
+import { Navigate ,useNavigate, Outlet } from "react-router-dom"
 import { useEffect } from "react"
 import { useState } from "react"
+import AccessDenied from "../AccessDenied/AccessDenied"
 function AdminRoute(){
     const [isAdmin, setIsAdmin] = useState(null)
+     const navigate = useNavigate()
     useEffect(()=>{
         const userToken = localStorage.getItem("token")
         if (!userToken){
@@ -34,7 +36,7 @@ function AdminRoute(){
         return null
     }
     if (!isAdmin){
-         return <Navigate to="/" replace />
+        return <AccessDenied onClose={() => navigate("/", { replace: true })} />
     }
       return <Outlet />
 }
