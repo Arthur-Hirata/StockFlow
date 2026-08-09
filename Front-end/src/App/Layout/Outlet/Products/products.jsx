@@ -7,8 +7,7 @@ function Products(){
     const [products, setProducts] = useState([])
     const [lowAmountProducts, setlowAmountProducts] = useState([])
     const [lowAmountQuantity, setLowAmountQuantity] = useState("")
-    const [productsNames, setProductsNames] = useState([])
-    console.log(productsNames)
+    const [search, setSearch] = useState("")
     useEffect(()=>{
         
         async function loadProducts (){
@@ -26,14 +25,14 @@ function Products(){
                 setProducts(data.products_list)
                 setlowAmountProducts(data.low_amount_products)
                 setLowAmountQuantity(data.low_amount_products.length)
-                setProductsNames(data.products_list.map(product => product.nome))
+                
             }
         }
         loadProducts()
     },[]);
-    function onApertar(){
-        alert(productsNames)
-    }
+    const filterProducts = products.filter(product =>
+        product.nome.toLowerCase().includes(search.toLowerCase())
+    )
     return (
         <section>
             <SectionTittle text={"Produtos"} />
@@ -65,9 +64,20 @@ function Products(){
                     color={"--text"}
                 
                 />
-                <input type="text" placeholder="Pesquise por produto"  className={styles.inputSearch}/>
+                <div className={styles.containerInputSearch}>
+
+                <button className={styles.erase} onClick={() => setSearch("")}> <i className="fa-solid fa-eraser"></i></button>
+                <input type="text" 
+                placeholder="Pesquise por produto"  
+                className={styles.inputSearch}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                
+                />
+                </div>
                 <div className={styles.gridProducts}>
-                    {products.map((product)=>(
+                    {search.trim() === "" ? (
+                        products.map((product)=>(
                         <div key={product.id} className={styles.Produto}>
                             <span className={styles.idProduto}>ID: {product.id}</span>
                             <img src={product.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
@@ -78,9 +88,24 @@ function Products(){
                             </div>
                             <span className={styles.quantidadeMinima}>{product.quantidade_minima}</span>
                         </div>
-                    ))}
+                    ))
+                    )
+                    :(
+                        filterProducts.map((filterd) => (
+                            <div key={filterd.id} className={styles.Produto}>
+                            <span className={styles.idProduto}>ID: {filterProducts.id}</span>
+                            <img src={filterd.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
+                            <span className={styles.nomeProduto}>{filterd.nome}</span>
+                            <span className={styles.precoProduto}>R${filterd.preco}</span>
+                            <div className={styles.divQuantidade}>
+                                <span className={styles.quantidade}>{filterd.quantidade}</span>
+                            </div>
+                            <span className={styles.quantidadeMinima}>{filterd.quantidade_minima}</span>
+                        </div>
+                        ))
+                    )
+                }
                 </div>
-                <button onClick={onApertar}></button>
             </div>
         </section>
     )

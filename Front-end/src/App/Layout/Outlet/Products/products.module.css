@@ -74,11 +74,26 @@
 .idProduto{
     text-align: center;
 }
+.containerInputSearch{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 .inputSearch {
   margin-top: 30px;
-  width: 80%;
+  width: 100%;
   max-width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.erase{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    margin-left: 450px;
+    margin-top: 30px;
+    background-color: var(--cards-bg);
+    color: black;
 }
