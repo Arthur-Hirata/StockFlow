@@ -7,6 +7,8 @@ function Products(){
     const [products, setProducts] = useState([])
     const [lowAmountProducts, setlowAmountProducts] = useState([])
     const [lowAmountQuantity, setLowAmountQuantity] = useState("")
+    const [productsNames, setProductsNames] = useState([])
+    console.log(productsNames)
     useEffect(()=>{
         
         async function loadProducts (){
@@ -24,10 +26,14 @@ function Products(){
                 setProducts(data.products_list)
                 setlowAmountProducts(data.low_amount_products)
                 setLowAmountQuantity(data.low_amount_products.length)
+                setProductsNames(data.products_list.map(product => product.nome))
             }
         }
         loadProducts()
     },[]);
+    function onApertar(){
+        alert(productsNames)
+    }
     return (
         <section>
             <SectionTittle text={"Produtos"} />
@@ -59,6 +65,7 @@ function Products(){
                     color={"--text"}
                 
                 />
+                <input type="text" placeholder="Pesquise por produto"  className={styles.inputSearch}/>
                 <div className={styles.gridProducts}>
                     {products.map((product)=>(
                         <div key={product.id} className={styles.Produto}>
@@ -73,6 +80,7 @@ function Products(){
                         </div>
                     ))}
                 </div>
+                <button onClick={onApertar}></button>
             </div>
         </section>
     )

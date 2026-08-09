@@ -1,7 +1,7 @@
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
 import { useEffect } from "react"
-import { PieChart, Pie, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Tooltip, Legend, Cell } from "recharts";
 
 function Dashboard(){
     const [daySales, setDaySales] = useState("")
@@ -9,6 +9,7 @@ function Dashboard(){
     const [monthRevenue, setMonthRevenue] = useState("")
     const [topProducts, setTopProducts] = useState([])
     const [topUsers, setTopUsers] = useState([])
+    const pieColors = ["#4CAF50", "#2196F3", "#FF9800", "#9C27B0", "#F44336", "#00BCD4", "#FFC107"]
 
     useEffect(()=>{
         async function getDashboard(){
@@ -74,12 +75,22 @@ function Dashboard(){
                         <span className={styles.graphTittle}>Gráfico de Vendas</span>
                         <PieChart width={800} height={300}>
                             <Pie
-                            data={topProducts}
-                            dataKey="quantidade"
-                            nameKey="nome"
-                            />
+                                data={topProducts}
+                                dataKey="quantidade"
+                                nameKey="nome"
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={100}
+                                fill="#8884d8"
+                                label
+                            >
+                                {topProducts.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                                ))}
+                            </Pie>
                             <Tooltip />
-                        <Legend />
+                            <Legend />
                         </PieChart>
                     </div>
                     <div className={styles.menu}>
