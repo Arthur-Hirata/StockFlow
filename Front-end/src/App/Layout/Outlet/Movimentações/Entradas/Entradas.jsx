@@ -3,7 +3,7 @@ import { useState } from "react"
 import Button from "../../../../../Components/Button/button"
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
-function Entradas({products}){
+function Entradas({products, onAdd}){
     const userToken = localStorage.getItem("token")
     const [alertOverlay, setAlertOverlay] = useState(null)
     const [confirmModal, setConfirmModal] = useState(null)
@@ -73,6 +73,7 @@ function Entradas({products}){
                     setTimeout(() => {
                         setAlertOverlay(null);
                     }, 3000);
+                    await onAdd()
                 }
                 else{
                     setAlertOverlay({

@@ -12,6 +12,7 @@ function Movimentações(){
     const [avaliableProducts, setAvaliableProducts] = useState([])
 
     const [saleskey, setSaleskey] = useState(0)
+    const [exitKey, setExitKey] = useState(0)
     async function loadProducts (){
         const userToken = localStorage.getItem("token")
         const response = await fetch("http://127.0.0.1:5000/getProducts", {
@@ -34,7 +35,7 @@ function Movimentações(){
     }
     useEffect(()=>{
         loadProducts()
-    })
+    }, [])
     return(
     <section>
             <SectionTittle text={"Movimentações"} />
@@ -68,11 +69,24 @@ function Movimentações(){
                         <button className={`${styles.movButton} ${ movSelected === "saida" ? styles.selected : ""}`} onClick={() => setMovSelected("saida")}>Saída</button>
                     </div>
                     {movSelected === "entrada" && (
-                        <Entradas products={products}/>
+                        <Entradas 
+                            products={products}
+                            onAdd={loadProducts}    
+                        />
                         
                     )}
                     {movSelected === "saida" &&(
-                        <Saidas  products={avaliableProducts} />
+                        <Saidas  
+                        key={exitKey}
+                        products={avaliableProducts} 
+                        onExit = {()=>{
+                            loadProducts()
+                            setExitKey(prev => prev + 1)
+                        }}
+                        
+                        
+                        
+                        />
                     )}
                     </div>}
                 {selected === "venda"&& <div className={styles.containerCard}>

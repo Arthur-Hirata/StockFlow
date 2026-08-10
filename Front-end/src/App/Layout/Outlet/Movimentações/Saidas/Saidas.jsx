@@ -6,7 +6,7 @@ import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 
 
 
-function Saidas({products}){
+function Saidas({products, onExit}){
     const userToken = localStorage.getItem("token")
     const [alertOverlay, setAlertOverlay] = useState(null)
     const [confirmModal, setConfirmModal] = useState(null)
@@ -99,6 +99,7 @@ function Saidas({products}){
                     setTimeout(() => {
                         setAlertOverlay(null);
                     }, 3000);
+                    await onExit()
                 }
                 else{
                     if (data.mensagem === "quantidade insuficiente"){
