@@ -10,31 +10,31 @@ function Movimentações(){
     const [movSelected, setMovSelected] = useState("entrada")
     const [products, setProducts] = useState([])
     const [avaliableProducts, setAvaliableProducts] = useState([])
-    useEffect(()=>{
-        
-        async function loadProducts (){
-            const userToken = localStorage.getItem("token")
-            const response = await fetch("http://127.0.0.1:5000/getProducts", {
-                method : 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${userToken}`,
-                },
-            })
-            const data = await response.json()
 
-            if (response.ok){
-                setProducts(data.products_list)
-                const avaliableProducts = data.products_list.filter(
-                    (product) => product.quantidade > 0
+    const [saleskey, setSaleskey] = useState(0)
+    async function loadProducts (){
+        const userToken = localStorage.getItem("token")
+        const response = await fetch("http://127.0.0.1:5000/getProducts", {
+            method : 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userToken}`,
+            },
+        })
+        const data = await response.json()
 
-                )
-                setAvaliableProducts(avaliableProducts)
-            }
+        if (response.ok){
+            setProducts(data.products_list)
+            const avaliableProducts = data.products_list.filter(
+                (product) => product.quantidade > 0
+
+            )
+            setAvaliableProducts(avaliableProducts)
         }
+    }
+    useEffect(()=>{
         loadProducts()
-    },[movSelected]);
-
+    })
     return(
     <section>
             <SectionTittle text={"Movimentações"} />
@@ -78,9 +78,14 @@ function Movimentações(){
                 {selected === "venda"&& <div className={styles.containerCard}>
                     <span className={styles.cardTittle}>Venda</span>
                     
-                    <Vendas products={avaliableProducts}/>
-                    
-                    
+                    <Vendas 
+                    key={saleskey}
+                    products={avaliableProducts}
+                    onSale={()=>{
+                        loadProducts()
+                        setSaleskey(prev => prev + 1)
+                    }}
+                    />
                     </div>}
 
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "../../../../../Components/Button/button";
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
-function Vendas({products}){
+function Vendas({products, onSale}){
     const [alertOverlay, setAlertOverlay] = useState(null)
     const [confirmModal, setConfirmModal] = useState(null)
 
@@ -127,6 +127,7 @@ function Vendas({products}){
                     setTimeout(() => {
                         setAlertOverlay(null);
                     }, 3000);
+                    await onSale()
                 }
                 else{
                     setAlertOverlay({
