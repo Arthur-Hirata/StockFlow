@@ -68,6 +68,15 @@ def pegarDashboard():
         cursor = conexao.cursor()
         cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now')")
         daily_sales = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now', '-1day')")
+        last_day_sales = cursor.fetchone()[0]
+
+        if last_day_sales > 0:
+            daily_precentage = ((last_day_sales-daily_sales) / last_day_sales) *100
+        else :
+            daily_precentage = 0
+
+
 
         cursor.execute("SELECT COUNT(*) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_sales = cursor.fetchone()[0]
@@ -107,7 +116,7 @@ def pegarDashboard():
                     {'id' : row[0], 'nome' : row[1], "valor" : row[2]}
                     for row in rows_users
         ]
-        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'month_sales' : month_sales, 'month_revenue' : month_revenue, 'top_products' : top_products, 'top_users' : top_users}),200
+        return jsonify({"mensagem" : "Busca concluida", "daily_sales" : daily_sales, 'daily_precentage' : daily_precentage, 'month_sales' : month_sales, 'month_revenue' : month_revenue, 'top_products' : top_products, 'top_users' : top_users}),200
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500

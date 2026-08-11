@@ -7,6 +7,7 @@ function Dashboard(){
     const [daySales, setDaySales] = useState("")
     const [monthSales, setMonthSales] = useState("")
     const [monthRevenue, setMonthRevenue] = useState("")
+    const [dayPercentage, setDayPercentage] = useState("")
     const [topProducts, setTopProducts] = useState([])
     const [topUsers, setTopUsers] = useState([])
     const pieColors = ["#4CAF50", "#2196F3", "#FF9800", "#9C27B0", "#F44336", "#00BCD4", "#FFC107"]
@@ -24,6 +25,7 @@ function Dashboard(){
                 setMonthRevenue(data.month_revenue)
                 setTopProducts(data.top_products)
                 setTopUsers(data.top_users)
+                setDayPercentage(data.daily_precentage)
             }
         }
 
@@ -41,7 +43,7 @@ function Dashboard(){
                         <span className={styles.cardValue}>{daySales}</span>
                         <div className={styles.dataRow}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
-                            <span>Mais que no dia anterior</span>
+                            <span>{dayPercentage} Mais que no dia anterior</span>
                         </div>
                     </div>
                     <div className={styles.CardDashboard}>
