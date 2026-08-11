@@ -1,5 +1,5 @@
 import styles from "./Vendas.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../../../Components/Button/button";
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
@@ -16,7 +16,14 @@ function Vendas({products, onSale}){
     const precoFinal = itemList.reduce((total, item) =>{
             return total + item.preco * item.quantity
         }, 0)
-
+    useEffect(()=>{
+        if (products.length ===0){
+            setFieldError("Não há itens para venda no estoque")
+        }
+        else{
+            setFieldError("")
+        }
+    }, [products])
     function onAdicionar(){
         let valid = true
         if (selectedProduct == "none"){
@@ -43,7 +50,6 @@ function Vendas({products, onSale}){
         const itemNalista = itemList.find(
             item => item.id === Number(selectedProduct)
         )
-        
         const quantidadeNaLista = itemNalista ? itemNalista.quantity : 0
         if (quantidadeNaLista + Number(quantity) > product.quantidade){
             valid = false
@@ -156,6 +162,9 @@ function Vendas({products, onSale}){
                     {products.map((product)=>( 
                     <option key={product.id} value={product.id}>{product.nome}</option>))}              
                 </select>
+                {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
+                
+
                 <span className={styles.inputRequest}>Quantidade</span>
                 <div className={styles.containerQuantidade}>
                     <input type="number" placeholder="Digite a Quantidade" min={0} value={quantity} onChange={(e)=> setQuantity(e.target.value) } className={quantityError ? styles.error : ""}/>

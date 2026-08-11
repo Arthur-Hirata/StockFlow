@@ -1,5 +1,5 @@
 import styles from "./Saidas.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Button from "../../../../../Components/Button/button"
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
 import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
@@ -18,6 +18,15 @@ function Saidas({products, onExit}){
     const [confirmQuantityError, setConfirmQuantityError] = useState("")
     const [reasonError, setReasonError] = useState("")
     const [fieldError, setFieldError] = useState("")
+
+
+    useEffect(()=>{
+        if (products.length === 0){
+            setFieldError("Não há itens para venda no estoque")
+        }else {
+            setFieldError("")
+        }
+    }, [products])
 
     function onRemove(){
         let valid = true
