@@ -26,11 +26,13 @@ function Dashboard(){
                 setTopProducts(data.top_products)
                 setTopUsers(data.top_users)
                 setDayPercentage(data.daily_precentage)
+                
             }
         }
 
         getDashboard()
     }, [])
+    const hasDayProfit = Number(dayPercentage) > 0
     return(
         <section>
             <div className={styles.containerDashboard}>
@@ -41,9 +43,9 @@ function Dashboard(){
                             <i className={`${styles.icon} fa-solid fa-arrow-trend-up`}></i>
                         </div>
                         <span className={styles.cardValue}>{daySales}</span>
-                        <div className={styles.dataRow}>
-                            <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
-                            <span>{dayPercentage} Mais que no dia anterior</span>
+                        <div className={hasDayProfit ? styles.dataRow : styles.dataRowLoss}>
+                            <span className={styles.dataValue}> <i className={hasDayProfit ?"fa-solid fa-arrow-trend-up" : "fa-solid fa-arrow-trend-down"}></i></span>
+                            <span> <b>{Number(dayPercentage || 0).toFixed(0) + "%"}</b> Mais que no dia anterior</span>
                         </div>
                     </div>
                     <div className={styles.CardDashboard}>

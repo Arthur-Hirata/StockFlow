@@ -68,18 +68,26 @@ def pegarDashboard():
         cursor = conexao.cursor()
         cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now')")
         daily_sales = cursor.fetchone()[0]
-        cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now', '-1day')")
+        cursor.execute("SELECT COUNT(*) FROM sales WHERE DATE(created_at) = DATE('now', '-1 day')")
         last_day_sales = cursor.fetchone()[0]
 
         if last_day_sales > 0:
-            daily_precentage = ((last_day_sales-daily_sales) / last_day_sales) *100
-        else :
+            daily_precentage = ((daily_sales - last_day_sales) / last_day_sales) * 100
+        else:
             daily_precentage = 0
 
 
 
         cursor.execute("SELECT COUNT(*) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_sales = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now', '-1 'month')")
+        last_month_sales = cursor.fetchone()[0]
+
+        if last_month_sales > 0:
+            month_precentage = (())
+
+
+
 
         cursor.execute("SELECT COALESCE(SUM(total_price), 0) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_revenue = cursor.fetchone()[0]
