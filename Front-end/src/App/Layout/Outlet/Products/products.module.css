@@ -97,3 +97,33 @@
     background-color: var(--cards-bg);
     color: black;
 }
+@media screen and (max-width:999px) {
+    .sectionProducts{
+        margin-left: 0px;
+    }
+    .gridLowAmountProducts{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-left: 0px;
+    }
+    .gridProducts{
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+    }
+    .erase{
+        margin-left: 260px;
+    }
+    @media screen and (min-width:768px) {
+        .gridLowAmountProducts{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .gridProducts{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}

@@ -171,3 +171,58 @@
 .spanValor{
     color: var(--green);
 }
+.graphContainer{
+    width: 100%;
+    height: 280px;
+}
+@media screen and (max-width:999px) {
+    .containerRowGraph{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .rowCard{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .CardDashboard{
+        width: 300px;
+    }
+    .dataRow{
+        width: 250px;
+        font-size: 12px;
+    }
+    .graph{
+        width: 350px;
+    }
+    .graphContainer{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    @media screen and (min-width:768px) {
+        .rowCard{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+        }
+        .CardDashboard{
+            width: 350px;
+        }
+        .containerRowGraph{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        .graph{
+            width: 500px;
+        }
+        .menu{
+            width: 250px;
+        }
+    }
+}

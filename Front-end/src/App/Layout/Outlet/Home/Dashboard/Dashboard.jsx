@@ -1,7 +1,7 @@
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
 import { useEffect } from "react"
-import { PieChart, Pie, Tooltip, Legend, Cell } from "recharts";
+import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer} from "recharts";
 
 function Dashboard(){
     const [daySales, setDaySales] = useState("")
@@ -83,6 +83,8 @@ function Dashboard(){
                 <div className={styles.containerRowGraph}>
                     <div className={styles.graph}>
                         <span className={styles.graphTittle}>Gráfico de Vendas</span>
+                        <div className={styles.graphContainer}>
+                        <ResponsiveContainer width="100%" height="100%">
                         <PieChart width={800} height={300}>
                             <Pie
                                 data={topProducts}
@@ -102,6 +104,8 @@ function Dashboard(){
                             <Tooltip />
                             <Legend />
                         </PieChart>
+                        </ResponsiveContainer>
+                    </div>
                     </div>
                     <div className={styles.menu}>
                         <span className={styles.menuTittle}>Mais vendas</span>
