@@ -7,7 +7,7 @@ function Sidebar(){
 
 
     return (
-       <aside>
+       <aside className={styles.sidebar}>
          <div className={styles.merchan}>
             <i className={`${styles.icon} fa-solid fa-box`}></i>
             <span className={styles.name}>StockFlow</span>
