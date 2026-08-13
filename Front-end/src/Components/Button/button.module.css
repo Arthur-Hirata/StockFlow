@@ -10,3 +10,9 @@ button{
     justify-content: center;
     margin: 40px auto 0; 
 }
+@media screen and (max-width:600px) {
+    button{
+        width: 120px;
+        
+    }
+}

@@ -1,8 +1,6 @@
 import styles from "./alertOverlay.module.css"
 
 function AlertOverlay({text, color} ){
-    console.log(text)
-    console.log(color)
     return(
         <div className={styles.containerAlert}
         style={{backgroundColor : `var(${color})`}}

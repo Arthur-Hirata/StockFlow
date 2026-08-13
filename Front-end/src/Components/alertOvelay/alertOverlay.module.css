@@ -38,7 +38,43 @@
     }
 
 }
-.textAlert{
+.alertText{
     text-align: center;
     font-size: 20px;
+}
+
+@media (max-width: 600px) {
+    .containerAlert {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: min(82vw, 320px);
+        top: 20px;
+        height: 60px;
+    }
+    @keyframes alertAnimation{
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -10px);
+        }
+
+        10% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        85% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -10px);
+        }
+    }
+
+    .alertText {
+        font-size: 16px;
+    }
 }

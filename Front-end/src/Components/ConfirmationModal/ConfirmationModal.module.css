@@ -31,3 +31,12 @@
     display: flex;
     gap: 20px;
 }
+@media screen and (max-width:600px)  {
+    .containerModal{
+        width: 300px;
+    }
+    .modalContent{
+        text-align: center;
+    }
+    
+}

@@ -24,7 +24,7 @@ section{
 .optionContainer{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     gap: 24px;
     width: 100%;
     max-width: 1000px;
@@ -32,13 +32,14 @@ section{
     box-sizing: border-box;
 }
 .optionCard{
-    flex: 1;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 10px;
     height: 140px;
+    min-width: 0;
     padding: 28px 24px;
     background: var(--cards-bg);
     border: 2px solid var(--border);
@@ -115,4 +116,33 @@ section{
 }
 .movButton{
     font-weight: 700;
+}
+@media screen and (max-width:600px) {
+    .optionContainer {
+        gap: 16px;
+        max-width: 100%;
+    }
+
+    .optionCard {
+        width: 290px;
+        height: 180px;
+        padding: 22px 18px;
+    }
+
+    .optionIcon {
+        width: 76px;
+        height: 76px;
+        font-size: 36px;
+    }
+
+    .optionTitle {
+        font-size: 15px;
+        text-align: center;
+    }
+    .containerCard{
+       width: 350px;
+    }
+    .movButton{
+        width: 90px;
+    }
 }
