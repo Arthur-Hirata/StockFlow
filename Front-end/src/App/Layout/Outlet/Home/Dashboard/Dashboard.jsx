@@ -8,6 +8,8 @@ function Dashboard(){
     const [monthSales, setMonthSales] = useState("")
     const [monthRevenue, setMonthRevenue] = useState("")
     const [dayPercentage, setDayPercentage] = useState("")
+    const [monthPercentage, setMonthPercentage] = useState("")
+    const [revenuePercentage, setRevenuePercentage] = useState("")
     const [topProducts, setTopProducts] = useState([])
     const [topUsers, setTopUsers] = useState([])
     const pieColors = ["#4CAF50", "#2196F3", "#FF9800", "#9C27B0", "#F44336", "#00BCD4", "#FFC107"]
@@ -26,6 +28,8 @@ function Dashboard(){
                 setTopProducts(data.top_products)
                 setTopUsers(data.top_users)
                 setDayPercentage(data.daily_precentage)
+                setMonthPercentage(data.month_percentage)
+                setRevenuePercentage(data.revenue_percentage)
                 
             }
         }
@@ -33,6 +37,8 @@ function Dashboard(){
         getDashboard()
     }, [])
     const hasDayProfit = Number(dayPercentage) > 0
+    const hasMonthProfit = Number(monthPercentage) > 0
+    const hasRevenue = Number(revenuePercentage) > 0
     return(
         <section>
             <div className={styles.containerDashboard}>
@@ -45,7 +51,7 @@ function Dashboard(){
                         <span className={styles.cardValue}>{daySales}</span>
                         <div className={hasDayProfit ? styles.dataRow : styles.dataRowLoss}>
                             <span className={styles.dataValue}> <i className={hasDayProfit ?"fa-solid fa-arrow-trend-up" : "fa-solid fa-arrow-trend-down"}></i></span>
-                            <span> <b>{Number(dayPercentage || 0).toFixed(0) + "%"}</b> Mais que no dia anterior</span>
+                            <span> <b>{Number(dayPercentage || 0).toFixed(0) + "%"}</b> {hasDayProfit ? "mais" : "menos"} que no dia anterior</span>
                         </div>
                     </div>
                     <div className={styles.CardDashboard}>
@@ -55,9 +61,9 @@ function Dashboard(){
                             
                         </div>
                         <span className={styles.cardValue}>{monthSales}</span>
-                        <div className={styles.dataRow}>
+                        <div className={hasMonthProfit ? styles.dataRow : styles.dataRowLoss}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
-                            <span>Mais que no mês anterior</span>
+                            <span> <b>{Number(monthPercentage || 0).toFixed(0) + "%"}</b> {hasMonthProfit ? "mais" : "menos"} que no mês anterior</span>
                         </div>
 
                     </div>
@@ -67,9 +73,9 @@ function Dashboard(){
                             <i className={`${styles.icon} fa-solid fa-file-invoice-dollar`}></i>
                         </div>
                         <span className={styles.cardValue}>R${monthRevenue}</span>
-                        <div className={styles.dataRow}>
+                        <div className={hasRevenue ? styles.dataRow : styles.dataRowLoss}>
                             <span className={styles.dataValue}> <i className="fa-solid fa-arrow-trend-up"></i></span>
-                            <span>Mais que no mês anterior</span>
+                            <span> <b>{Number(revenuePercentage || 0).toFixed(0) + "%"}</b> {hasRevenue ? "mais" : "menos"} que no mês anterior</span>
                         </div>
 
                     </div>

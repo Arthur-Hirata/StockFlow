@@ -74,9 +74,7 @@ def pegarDashboard():
         if last_day_sales > 0:
             daily_precentage = ((daily_sales - last_day_sales) / last_day_sales) * 100
         else:
-            daily_precentage = 0
-
-
+            daily_precentage = 100
 
         cursor.execute("SELECT COUNT(*) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_sales = cursor.fetchone()[0]
@@ -86,10 +84,7 @@ def pegarDashboard():
         if last_month_sales > 0:
             month_precentage = ((month_sales - last_month_sales)/last_month_sales) * 100
         else: 
-            month_precentage : 0
-
-
-
+            month_precentage = 100
         cursor.execute("SELECT COALESCE(SUM(total_price), 0) FROM sales WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')")
         month_revenue = cursor.fetchone()[0]
 
@@ -99,11 +94,7 @@ def pegarDashboard():
         if last_month_revenue > 0:
             revenue_percentage = ((month_revenue - last_month_revenue)/ last_month_revenue) * 100
         else :
-            revenue_percentage : 0
-
-
-
-
+            revenue_percentage = 100
         cursor.execute('''
         SELECT
             p.id,
