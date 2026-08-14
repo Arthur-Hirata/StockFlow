@@ -4,32 +4,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 32px;
 }
 
-.containerLogs{
+.containerLogs {
     background-color: var(--background);
-    width: 83vw;
+    width: min(100%, 700px);
     display: flex;
     justify-content: center;
     align-items: flex-start;
     padding: 20px 0 0;
 }
-.divBtns{
+
+.divBtns {
+    width: min(100%, 620px);
     margin-top: 20px;
     display: flex;
-    gap: 30px;
-    height: 0px;
+    flex-direction: row;
+    gap: 18px 20px;
 }
-.optionCard{
-    flex: 1;
+
+.optionCard {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 250px;
+    width: 100%;
+    max-width: 240px;
+    justify-self: center;
     gap: 10px;
-    height: 140px;
-    padding: 28px 24px;
+    height: 120px;
+    padding: 20px 16px;
     background: var(--cards-bg);
     border: 2px solid var(--border);
     border-radius: 16px;
@@ -38,44 +43,101 @@
     box-shadow: var(--shadow);
     z-index: 1000;
 }
-.optionCard:hover{
+
+.optionCard:hover {
     border-color: var(--main-blue);
     transform: translateY(-4px);
     box-shadow: 0 12px 28px rgba(29, 78, 216, .15);
 }
-.selected{
+
+.selected {
     background: var(--main-blue);
     border-color: var(--secundary-text);
 }
+
 .selected .optionIcon,
 .selected .optionTitle,
-.selected .optionDescription{
+.selected .optionDescription {
     color: white;
 }
-.optionIcon{
-    width: 64px;
-    height: 64px;
+
+.optionIcon {
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     background: rgba(66,108,199,.12);
     color: var(--main-blue);
-    font-size: 30px;
+    font-size: 26px;
     transition: .25s;
 }
-.selected .optionIcon{
+
+.selected .optionIcon {
     background: rgba(255,255,255,.15);
     color: white;
 }
-.optionTitle{
-    font-size: 20px;
+
+.optionTitle {
+    font-size: 18px;
     font-weight: 700;
     color: var(--text);
 }
-.optionDescription{
+
+.optionDescription {
     text-align: center;
     color: var(--secundary-text);
     font-size: 14px;
     line-height: 1.5;
+}
+
+@media screen and (max-width: 768px) {
+    .containerLogs {
+        width: min(100%, 500px);
+        padding-top: 12px;
+    }
+
+    .divBtns {
+        width: min(100%, 420px);
+        gap: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+
+    .optionCard {
+        max-width: 180px;
+        height: 102px;
+        padding: 16px 12px;
+    }
+
+    .optionIcon {
+        width: 42px;
+        height: 42px;
+        font-size: 22px;
+    }
+
+    .optionTitle {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .containerLogs {
+        width: 100%;
+        padding: 16px 12px 0;
+    }
+
+    .divBtns {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    .optionCard {
+        max-width: none;
+        min-height: 90px;
+        border-radius: 12px;
+        gap: 8px;
+    }
 }

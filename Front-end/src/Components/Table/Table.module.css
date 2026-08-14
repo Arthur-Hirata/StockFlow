@@ -1,14 +1,16 @@
-section{
+section {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
+
 .tableContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1000px;
-    margin-top: 200px;
+    width: min(100%, 1000px);
+    margin-top: 40px;
     overflow-x: auto;
     background: var(--cards-bg);
     border: 1px solid var(--border);
@@ -19,6 +21,7 @@ section{
 
 .table {
     width: 100%;
+    min-width: 680px;
     border-collapse: collapse;
     font-size: 14px;
     color: var(--text);
@@ -44,4 +47,40 @@ section{
 
 .table tbody tr:last-child td {
     border-bottom: none;
+}
+
+@media screen and (max-width: 768px) {
+    .tableContainer {
+        width: min(100%, 92vw);
+        margin-top: 24px;
+        padding: 6px;
+    }
+
+    .table {
+        min-width: 560px;
+        font-size: 12px;
+    }
+
+    .table thead th {
+        padding: 10px 12px;
+    }
+
+    .table tbody td {
+        padding: 10px 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .table {
+        min-width: 300px;
+        font-size: 11px;
+    }
+
+    .table thead th {
+        padding: 8px 10px;
+    }
+
+    .table tbody td {
+        padding: 8px 10px;
+    }
 }
