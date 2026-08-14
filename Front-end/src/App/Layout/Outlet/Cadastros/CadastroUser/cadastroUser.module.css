@@ -93,3 +93,25 @@ select::-ms-expand{
     margin-left: 360px;
     width: 30px;
 }
+@media screen and (max-width:999px) {
+    .containerCadastroUser{
+        display: flex;
+        flex-direction: column;
+    }
+    .cardCadastro{
+        width: 350px;
+    }
+    .userAction input[type="text"], 
+    .userAction input[type="password"]{
+        width: 90%;
+    }
+    .btnOlho{
+        margin-left: 265px;
+    }
+    @media screen and (min-width:600px) {
+    .containerCadastroUser{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    }
+}

@@ -77,3 +77,15 @@ select::-ms-expand{
     margin-left: 5px;
     margin-top: -12px;
 }
+@media screen and (max-width:999px){
+    .containerCadastroProd{
+        display: flex;
+        flex-direction: column;
+    }
+    @media screen and (min-width:600px) {
+    .containerCadastroProd{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    }
+}
