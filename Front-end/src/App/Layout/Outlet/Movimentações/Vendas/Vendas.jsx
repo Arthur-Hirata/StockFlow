@@ -2,9 +2,7 @@ import styles from "./Vendas.module.css"
 import { useEffect, useState } from "react";
 import Button from "../../../../../Components/Button/button";
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
-import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
-function Vendas({products, onSale}){
-    const [alertOverlay, setAlertOverlay] = useState(null)
+function Vendas({products, onSale, showAlert}){
     const [confirmModal, setConfirmModal] = useState(null)
 
 
@@ -17,7 +15,7 @@ function Vendas({products, onSale}){
             return total + item.preco * item.quantity
         }, 0)
     useEffect(()=>{
-        if (products.length ===0){
+        if (products.length === 0){
             setFieldError("Não há itens para venda no estoque")
         }
         else{
@@ -96,13 +94,7 @@ function Vendas({products, onSale}){
 
     function onVender(){
         if (precoFinal == 0){
-            setAlertOverlay({
-                text : "Erro, Não há itens informados",
-                color : "--red"
-            })
-            setTimeout(() => {
-                setAlertOverlay(null);
-            }, 3000);
+            showAlert("Erro, Não há itens informados", "--red")
             return
         }
         setConfirmModal({
@@ -126,36 +118,17 @@ function Vendas({products, onSale}){
                 setItemList([])
                 setConfirmModal(null)
                 if (response.ok){
-                    setAlertOverlay({
-                        text : "Venda cadastrada com sucesso!",
-                        color : "--green"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
                     await onSale()
                 }
                 else{
-                    setAlertOverlay({
-                        text : "Erro ao cadastrar venda!",
-                        color : "--red"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
+                    showAlert("Erro ao cadastrar venda!", "--red")
                 }
                 
             }
         })
     }
     return(
-        <div className={styles.userAction}>
-            {alertOverlay && (
-            <AlertOverlay 
-                text={alertOverlay.text}
-                color={alertOverlay.color}
-                 />
-                )}  
+        <div className={styles.userAction}> 
                 <span className={styles.inputRequest}>Produto</span>
                 <select name="" value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className={fieldError ? styles.error : ""}> {fieldError && <span className={styles.spanErro}>{fieldError}</span>}
                     <option value="none">Selecione um produto</option>

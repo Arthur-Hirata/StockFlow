@@ -2,10 +2,8 @@ import styles from "./Entradas.module.css"
 import { useState } from "react"
 import Button from "../../../../../Components/Button/button"
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
-import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
-function Entradas({products, onAdd}){
+function Entradas({products, onAdd, showAlert}){
     const userToken = localStorage.getItem("token")
-    const [alertOverlay, setAlertOverlay] = useState(null)
     const [confirmModal, setConfirmModal] = useState(null)
     const [selectedProduct, setSelectedProduct] = useState("")
     const [quantity, setQuantity] = useState("")
@@ -66,35 +64,16 @@ function Entradas({products, onAdd}){
                 setQuantity("")
                 setConfirmQuantity("")
                 if (response.ok){
-                    setAlertOverlay({
-                        text : "Quantidade adicionada com sucesso",
-                        color : "--green"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
                     await onAdd()
                 }
                 else{
-                    setAlertOverlay({
-                        text : "Erro ao adicionar quantidade",
-                        color : "--red"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
+                    showAlert("Erro ao adicionar quantidade!", "--red")
                 }
             }
         })
     }
     return (
         <div className={styles.userAction}>
-        {alertOverlay && (
-            <AlertOverlay 
-                text={alertOverlay.text}
-                color={alertOverlay.color}
-        />
-        )}
         <select name="" value={selectedProduct} onChange={(e) => {setSelectedProduct(e.target.value); setFieldError("")}} className={fieldError ? styles.error : ""}>
             <option value="">Selecione um produto</option>
             {products.map((product)=>(

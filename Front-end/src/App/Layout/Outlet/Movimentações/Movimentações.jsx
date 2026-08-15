@@ -1,5 +1,6 @@
 import styles from "./Movimentações.module.css"
 import SectionTittle from "../../../../Components/Section-Tittle/Section-tittle"
+import AlertOverlay from "../../../../Components/alertOvelay/alertOvelay"
 import { useState } from "react"
 import { useEffect } from "react"
 import Entradas from "./Entradas/Entradas"
@@ -10,9 +11,8 @@ function Movimentações(){
     const [movSelected, setMovSelected] = useState("entrada")
     const [products, setProducts] = useState([])
     const [avaliableProducts, setAvaliableProducts] = useState([])
+    const [alertOverlay, setAlertOverlay] = useState(null)
 
-    const [saleskey, setSaleskey] = useState(0)
-    const [exitKey, setExitKey] = useState(0)
     async function loadProducts (){
         const userToken = localStorage.getItem("token")
         const response = await fetch("http://127.0.0.1:5000/getProducts", {
@@ -28,7 +28,7 @@ function Movimentações(){
             setProducts(data.products_list)
             const avaliableProducts = data.products_list.filter(
                 (product) => product.quantidade > 0
-
+                
             )
             setAvaliableProducts(avaliableProducts)
         }
@@ -36,10 +36,28 @@ function Movimentações(){
     useEffect(()=>{
         loadProducts()
     }, [])
+    function showAlert(text, color){
+        setAlertOverlay({
+        text,
+        color
+        })
+
+        setTimeout(() => {
+        setAlertOverlay(null)
+    }, 3000)
+    }
     return(
     <section>
+        {alertOverlay && (
+            <AlertOverlay 
+                text={alertOverlay.text}
+                color={alertOverlay.color}
+        />
+        )}
             <SectionTittle text={"Movimentações"} />
+            
          <div className={styles.containerMovimentaçoes}>
+         
             <div className={styles.containerCadastro}>
                 <div className={styles.optionContainer}>
                     <div
@@ -71,18 +89,22 @@ function Movimentações(){
                     {movSelected === "entrada" && (
                         <Entradas 
                             products={products}
-                            onAdd={loadProducts}    
+                            onAdd={async()=>{
+                                loadProducts()
+                                showAlert("Quantidade adicionada com sucesso!", "--green")
+                            }}
+                            showAlert={showAlert}    
                         />
                         
                     )}
                     {movSelected === "saida" &&(
                         <Saidas  
-                        key={exitKey}
                         products={avaliableProducts} 
-                        onExit = {()=>{
-                            loadProducts()
-                            setExitKey(prev => prev + 1)
+                        onExit={async()=>{
+                            await loadProducts()
+                            showAlert("Saida cadastrada com sucesso", "--green")
                         }}
+                        showAlert={showAlert}
                         
                         
                         
@@ -93,12 +115,12 @@ function Movimentações(){
                     <span className={styles.cardTittle}>Venda</span>
                     
                     <Vendas 
-                    key={saleskey}
                     products={avaliableProducts}
-                    onSale={()=>{
-                        loadProducts()
-                        setSaleskey(prev => prev + 1)
+                    onSale={async()=>{
+                        await loadProducts()
+                        showAlert("Venda cadastrada com sucesso", "--green")
                     }}
+                    showAlert={showAlert}
                     />
                     </div>}
 

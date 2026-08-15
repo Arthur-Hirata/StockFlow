@@ -2,13 +2,13 @@ import styles from "./Saidas.module.css"
 import { useEffect, useState } from "react"
 import Button from "../../../../../Components/Button/button"
 import ConfirmartionModal from "../../../../../Components/ConfirmationModal/ConfirmationModal"
-import AlertOverlay from "../../../../../Components/alertOvelay/alertOvelay"
 
 
 
-function Saidas({products, onExit}){
+
+function Saidas({products, onExit, showAlert}){
     const userToken = localStorage.getItem("token")
-    const [alertOverlay, setAlertOverlay] = useState(null)
+
     const [confirmModal, setConfirmModal] = useState(null)
     const [selectedProduct, setSelectedProduct] = useState("")
     const [quantity, setQuantity] = useState("")
@@ -101,33 +101,14 @@ function Saidas({products, onExit}){
                 setReason("")
                 const data = await response.json()
                 if (response.ok){
-                    setAlertOverlay({
-                        text : "Quantidade removida com sucesso",
-                        color : "--green"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
                     await onExit()
                 }
                 else{
                     if (data.mensagem === "quantidade insuficiente"){
-                        setAlertOverlay({
-                        text : "Quantidade insuficiente do produto",
-                        color : "--red"
-                    })
-                    setTimeout(() => {
-                        setAlertOverlay(null);
-                    }, 3000);
+                        showAlert("Quantidade insuficiente do produto", '--red')
                     }
                     else{
-                        setAlertOverlay({
-                            text : "Erro ao remover quantidade",
-                            color : "--red"
-                        })
-                        setTimeout(() => {
-                            setAlertOverlay(null);
-                        }, 3000);
+                        showAlert("Erro ao remover quantidad", '--red')
                     }
                 }
             }
@@ -140,12 +121,6 @@ function Saidas({products, onExit}){
     }
     return (
         <div className={styles.userAction}>
-        {alertOverlay && (
-            <AlertOverlay 
-                text={alertOverlay.text}
-                color={alertOverlay.color}
-        />
-        )}
         <select name="" value={selectedProduct} onChange={(e) => {setSelectedProduct(e.target.value);setFieldError("")}} className={fieldError ? styles.error : ""}> 
             <option value="none">Selecione um produto</option>
             {products.map((product)=>(
