@@ -1,0 +1,112 @@
+.containerUserInfo{
+    width: 180px;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    margin-top: 20px;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.displayContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--aside);
+    width: 150px;
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+.displayContainer:hover{
+    transform: scale(1.07);
+}
+.popup {
+  position: absolute;
+  left: 15px;
+  bottom: 100px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.38);
+  color: #edf2ff;
+  padding: 16px 18px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  animation: fadeInUp 0.22s ease forwards;
+}
+
+.popupClosing {
+  animation: fadeOutDown 0.18s ease forwards;
+}
+
+.popupHeader {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+  opacity: 0.9;
+}
+
+.popupInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: #e2e8f0;
+}
+
+.popupInfo p {
+  margin: 0;
+}
+
+.btnSair {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--red);
+  color: white;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btnSair:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}

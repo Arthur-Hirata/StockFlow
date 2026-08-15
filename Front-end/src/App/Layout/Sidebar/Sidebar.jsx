@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css"
+import Userinfo from "./userInfo/UserInfo";
 
-
-function Sidebar(){
+function Sidebar({id, nome, role}){
    const navigate = useNavigate()
 
 
     return (
-          <aside className={styles.sidebar}>
+         <aside className={styles.sidebar}>
          <div className={styles.merchan}>
             <i className={`${styles.icon} fa-solid fa-box`}></i>
             <span className={styles.name}>StockFlow</span>
@@ -29,6 +29,7 @@ function Sidebar(){
                   <span className={styles.routeName} onClick={()=> navigate('/Logs')}>Logs</span>
                </div>
          </div>
+            <Userinfo id={id} nome={nome} role={role}/>
        </aside>
     )
 }

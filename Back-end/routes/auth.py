@@ -23,9 +23,15 @@ def validarToken():
         token = auth_header.split(" ", 1)[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         role= payload['role']
+        user = {
+            'id' : payload['sub'],
+            'nome': payload['nome'],
+            'role' : payload['role']
+        }
         return jsonify({
             "mensagem" : "validy token",
-            'role' : role
+            'user' : user,
+            'role' : role,
         }), 200
     except jwt.ExpiredSignatureError:
         return (jsonify({"mensagem": "expired token"}), 401)

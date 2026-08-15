@@ -17,7 +17,6 @@ function Logs(){
                 }
             })
             const data = await response.json()
-            console.log(data)
             setTableData(data.tabela || data.table || [])
         }
         loadData();
