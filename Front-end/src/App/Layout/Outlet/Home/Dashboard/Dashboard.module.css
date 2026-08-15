@@ -175,7 +175,7 @@
     width: 100%;
     height: 280px;
 }
-@media screen and (max-width:999px) {
+@media screen and (max-width:1350px) {
     .containerRowGraph{
         display: flex;
         flex-direction: column;

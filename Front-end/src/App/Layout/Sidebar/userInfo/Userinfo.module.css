@@ -29,8 +29,7 @@
 }
 .popup {
   position: absolute;
-  left: 15px;
-  bottom: 100px;
+  margin-bottom: 320px;
   width: 200px;
   height: 200px;
   background: rgba(255, 255, 255, 0.08);
@@ -111,4 +110,30 @@
     opacity: 0;
     transform: translateY(8px) scale(0.98);
   }
+}
+@media screen and (max-width:999px) {
+    .popup{
+        left: 600px;
+        bottom: 20px;
+        position: fixed;
+    }
+    
+    p{
+        color: black;
+    }
+    @media screen and (max-width: 399px) {
+        .popup{
+        background: rgba(255, 255, 255, 0.08);
+        left: 180px;
+        bottom: 20px;
+    }
+    }
+    @media screen and (max-width: 500px) {
+        .popup{
+        background: rgba(255, 255, 255, 0.08);
+        left: 180px;
+        bottom: 20px;
+    }
+    }
+
 }
