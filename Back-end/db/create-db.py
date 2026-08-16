@@ -54,5 +54,13 @@ cursor.execute('''
                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                )
 ''')
+admin_passoword = generate_password_hash("admin")
+user = {
+    'admin',
+    'admin@gmial.com',
+    admin_passoword,
+    'admin'
+}
+cursor.execute("UPDATE users SET (nome, email, password, role) VALUES(?,?,?,?)", (user,))
 conexao.commit()
 conexao.close()

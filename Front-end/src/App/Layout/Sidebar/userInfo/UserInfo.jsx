@@ -47,8 +47,6 @@ function Userinfo({id, nome, role}){
                         handleToggle()
                     }
                 }}
-            
-            
             >
                 <i className="fa-solid fa-box"></i>
                 <span className={styles.userName}>{nome}</span>
