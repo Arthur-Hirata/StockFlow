@@ -8,6 +8,10 @@ O projeto foi desenvolvido como uma experiência prática de desenvolvimento Ful
 
 O projeto foi desenvolvido para uso local, com um banco de dados independente para cada instalação.
 
+
+https://github.com/user-attachments/assets/5f3dc837-d103-4416-8708-a6c029be669d
+
+
 ---
 
 ## 🛠️ Tecnologias utilizadas
@@ -116,7 +120,7 @@ Credenciais iniciais
 Email: admin@gmail.com
 Senha: admin
 
-Após o primeiro acesso, recomenda-se criar um novo administrador e remover o usuário inicial.
+## Após o primeiro acesso, recomenda-se criar um novo administrador e remover o usuário inicial.
 
 ## 8. Execute o back-end:
 
