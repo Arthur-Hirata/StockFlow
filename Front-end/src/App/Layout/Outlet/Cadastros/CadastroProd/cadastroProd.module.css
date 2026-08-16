@@ -23,6 +23,20 @@
     gap: 12px;
     margin-left: 24px;
 }
+.userAction input[type="number"]{
+    width: 100%;
+    height: 40px;
+    max-width: 300px;
+    padding:1px;
+    margin-top: -10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: var(--cards-bg);
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+    padding-left: 10px;
+}
 .userAction input[type="text"]{
     width: 100%;
     max-width: 300px;
@@ -36,7 +50,8 @@
     box-sizing: border-box;
     padding-left: 10px;
 }
-.userAction input[type='text'].error{
+.userAction input[type='text'].error,
+.userAction input[type='number'].error{
   border: 1px solid var(--red);
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
 }

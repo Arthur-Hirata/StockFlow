@@ -309,7 +309,7 @@ function CadastroProd(){
                         <span className={styles.inputRequest}>Nome do produto</span>
                         <input type="text" placeholder="Nome produto" value={name} onChange={(e) => { setName(e.target.value); setNameError('') }} className={nameError ? styles.error : ""} /> {nameError && <span className={styles.spanErro}>{nameError}</span>}
                         <span className={styles.inputRequest}>Preço de venda</span>
-                        <input type="text"  placeholder="Preço de venda (apenas números)" value={price} onChange={(e) => { setPrice(e.target.value); setPriceError('') }} className={priceError ? styles.error : ""}/> {priceError && <span className={styles.spanErro}>{priceError}</span>}
+                        <input type="number"  placeholder="Preço de venda (apenas números)" value={price} onChange={(e) => { setPrice(e.target.value); setPriceError('') }} className={priceError ? styles.error : ""}/> {priceError && <span className={styles.spanErro}>{priceError}</span>}
                         <span className={styles.inputRequest}>Quantidade Mínima no estoque</span>
                         <input type="text" placeholder="Quantidade Mínima estoque" value={lowAmount} onChange={(e) => { setLowAmount(e.target.value); setAmountError('') }}  className={amountError ? styles.error : ""}/> {amountError && <span className={styles.spanErro}>{amountError}</span>}
                         <span className={styles.inputRequest}>Imagem do produto</span>
@@ -331,9 +331,9 @@ function CadastroProd(){
                     <span className={styles.cardTittle}>Remover Produtos</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID do produto</span>
-                        <input type="text" placeholder="ID produto" value={idItem} onChange={(e)=> { setItemId(e.target.value); setIDError("") }} className={idItemError ? styles.error : ""}/>  {idItemError && <span className={styles.spanErro}>{idItemError}</span>}
+                        <input type="number" placeholder="ID produto" value={idItem} onChange={(e)=> { setItemId(e.target.value); setIDError("") }} className={idItemError ? styles.error : ""}/>  {idItemError && <span className={styles.spanErro}>{idItemError}</span>}
                         <span className={styles.inputRequest}>Confirme ID do produto</span>
-                        <input type="text" placeholder="ID produto" value={confirmIditem} onChange={(e) => { setIdConfirm(e.target.value); setConfirmError("") }} className={confirmError ? styles.error : ""}/> {confirmError && <span className={styles.spanErro}>{confirmError}</span>}
+                        <input type="number" placeholder="ID produto" value={confirmIditem} onChange={(e) => { setIdConfirm(e.target.value); setConfirmError("") }} className={confirmError ? styles.error : ""}/> {confirmError && <span className={styles.spanErro}>{confirmError}</span>}
                         <span className={styles.inputRequest}>Motivo da remoção</span>
                         <input type="text" placeholder="Motivo da remoção" value={reason} onChange={(e) => { setReason(e.target.value); setReasonError("") }} className={reasonError ? styles.error : ""}/> {reasonError && <span className={styles.spanErro}>{reasonError}</span>}
                     </div>
@@ -354,9 +354,9 @@ function CadastroProd(){
                     <span className={styles.cardTittle}>Editar Produto</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID do Produto</span>
-                        <input type="text" placeholder="ID produto" value={editId} onChange={(e)=> {setEditID(e.target.value); setEditIDErro("")}} className={editIdErro ? styles.error : ""}/>  {editIdErro && <span className={styles.spanErro}>{editIdErro}</span>}
+                        <input type="number" placeholder="ID produto" value={editId} onChange={(e)=> {setEditID(e.target.value); setEditIDErro("")}} className={editIdErro ? styles.error : ""}/>  {editIdErro && <span className={styles.spanErro}>{editIdErro}</span>}
                         <span className={styles.inputRequest}>Confirme ID do produto</span>
-                        <input type="text" placeholder="ID produto"  value={confirmEdit} onChange={(e)=>{setEditConfirm(e.target.value); setConfrimErroEdit("")}} className={confirmEditError ? styles.error : ""} /> {confirmEditError && <span className={styles.spanErro}>{confirmEditError}</span>}
+                        <input type="number" placeholder="ID produto"  value={confirmEdit} onChange={(e)=>{setEditConfirm(e.target.value); setConfrimErroEdit("")}} className={confirmEditError ? styles.error : ""} /> {confirmEditError && <span className={styles.spanErro}>{confirmEditError}</span>}
                         <span className={styles.inputRequest}>Edição</span>
                         <input type="text" placeholder="Digite a edição" value={edit} onChange={(e) => { setEdit(e.target.value); setEditError("") }} className={editError ? styles.error : ""} /> {editError && <span className={styles.spanErro}>{editError}</span>}
                     <select 

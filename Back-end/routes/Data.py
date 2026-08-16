@@ -45,6 +45,8 @@ def pegarDados(selected):
         cursor = conexao.cursor()
         if selected == "users":
             cursor.execute("SELECT id, nome, email, role, created_at FROM users ")
+        elif selected == "logs":
+            cursor.execute("SELECT * FROM logs ORDER BY id DESC LIMIT 150")
         else:
             cursor.execute(f"SELECT * FROM {selected}")
         columns =[col[0] for col in cursor.description]

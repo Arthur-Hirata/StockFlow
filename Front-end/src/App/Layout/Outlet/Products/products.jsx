@@ -33,6 +33,13 @@ function Products(){
     const filterProducts = products.filter(product =>
         product.nome.toLowerCase().includes(search.toLowerCase())
     )
+    if (search !== ""){
+        const hasFilterProducts = filterProducts.length > 0
+        if (!hasFilterProducts){
+            console.log("nao tem com esse noime ai")
+        }
+
+    }
     return (
         <section>
             <SectionTittle text={"Produtos"} />
@@ -91,7 +98,10 @@ function Products(){
                     ))
                     )
                     :(
-                        filterProducts.map((filterd) => (
+                        filterProducts.length === 0  ?( 
+                            <span className={styles.spanNaoEncontrado}>Desculpe, o produto {search} não foi encontrado</span>
+                        ) : (
+                            filterProducts.map((filterd) => (
                             <div key={filterd.id} className={styles.Produto}>
                             <span className={styles.idProduto}>ID: {filterProducts.id}</span>
                             <img src={filterd.imagem} alt="Foto do Produto" className={styles.fotoProduto} />
@@ -103,6 +113,7 @@ function Products(){
                             <span className={styles.quantidadeMinima}>{filterd.quantidade_minima}</span>
                         </div>
                         ))
+                        )
                     )
                 }
                 </div>

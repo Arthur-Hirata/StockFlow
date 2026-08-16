@@ -55,12 +55,12 @@ cursor.execute('''
                )
 ''')
 admin_passoword = generate_password_hash("admin")
-user = {
+user = (
     'admin',
     'admin@gmial.com',
     admin_passoword,
     'admin'
-}
-cursor.execute("UPDATE users SET (nome, email, password, role) VALUES(?,?,?,?)", (user,))
+)
+cursor.execute("INSERT INTO users (nome, email, password, role) VALUES(?,?,?,?)", (user,))
 conexao.commit()
 conexao.close()

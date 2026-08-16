@@ -257,9 +257,9 @@ function CadastroUser(){
                     <span className={styles.cardTittle}>Remover Usuários</span>
                     <div className={styles.userAction}>
                         <span className={styles.inputRequest}>ID usuário</span>
-                            <input type="text" placeholder="Digite o ID do usuário" value={id} onChange={(e) => {setId(e.target.value); setIdError("")}} className={idError ? styles.error : ""}/> {idError && <span  className={styles.spanErro}>{idError}</span>}
+                            <input type="number" placeholder="Digite o ID do usuário" value={id} onChange={(e) => {setId(e.target.value); setIdError("")}} className={idError ? styles.error : ""}/> {idError && <span  className={styles.spanErro}>{idError}</span>}
                             <span className={styles.inputRequest}>Confirme o ID do usuário</span>
-                            <input type="text" placeholder="Confirme o ID do usuário" value={confirmId} onChange={(e) => {setConfirmID(e.target.value); setConfirmIdError("")}}  className={confirmIdError ? styles.error : ""}/> {confirmIdError && <span  className={styles.spanErro}>{confirmIdError}</span>}
+                            <input type="number" placeholder="Confirme o ID do usuário" value={confirmId} onChange={(e) => {setConfirmID(e.target.value); setConfirmIdError("")}}  className={confirmIdError ? styles.error : ""}/> {confirmIdError && <span  className={styles.spanErro}>{confirmIdError}</span>}
                             <span className={styles.inputRequest}>Motivo da remoção</span>
                             <input type="text"  placeholder="Informe o motivo da remoção do usuário" value={reason} onChange={(e) => {setReason(e.target.value); setReasonError("")}} className={reasonError ? styles.error : ""}/> {reasonError && <span  className={styles.spanErro}>{reasonError}</span>}
                     </div>
